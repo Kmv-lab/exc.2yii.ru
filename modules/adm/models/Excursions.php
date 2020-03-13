@@ -27,12 +27,14 @@ class Excursions extends ActiveRecord
         return 'excursions';
     }
 
-    public function upload(){
-        $file = UploadedFile::getInstance($this, 'main_photo');
+    public function upload($name){
+        $file = UploadedFile::getInstance($this, $name);
+
+        //vd($this->{$name});
 
         if ($file){
-            if ($this->main_photo){
-                $this->deleteOldPhoto($this->main_photo);
+            if ($this->{$name}){
+                $this->deleteOldPhoto($name, $this->{$name});
             }
             $file->name = strtolower(md5(uniqid($file->baseName))). '.' . $file->extension;
             $file->saveAs( $this->DIR().'original/'.$file->name);
@@ -42,9 +44,9 @@ class Excursions extends ActiveRecord
         return false;
     }
 
-    public function deleteOldPhoto($fileName=null){
+    public function deleteOldPhoto($name, $fileName=null){
         if(!$fileName){
-            $fileName = $this->main_photo;
+            $fileName = $this->{$name};
         }
 
         if (is_file($this->DIR().'original/'.$fileName)) {

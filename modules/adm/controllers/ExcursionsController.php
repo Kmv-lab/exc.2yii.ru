@@ -15,8 +15,8 @@ class ExcursionsController extends Controller
     public function actionIndex(){
 
         if(\Yii::$app->request->isPost){
-            //vd(\Yii::$app->request->post());
-            //vd($_POST);
+            /*vd(Yii::$app->request->post(), false);
+            vd($_POST);*/
         }
 
         //dsd
@@ -27,28 +27,32 @@ class ExcursionsController extends Controller
 
         if ($post = Yii::$app->request->post()) {
             foreach ($post['Excursions'] as $key => $value) {
-                if ($value != $model[$key]){
-                    if (($key == 'main_photo') && ($value == '')){
-                        continue;
+                if (($key == 'main_photo') && ($value == '')){
+                    if($file = $model->upload('main_photo')){
+                        $model->main_photo = $file;
+
+                        $resolutions = explode("x", Yii::$app->params['resolution_main_excursion_photo']);
+
+                        $post = [
+                            'id' => $model->id,
+                            'x1' => '0',
+                            'y1' => '0',
+                            'x2' => $resolutions[0],
+                            'y2' => $resolutions[1],
+                            'r' => Yii::$app->params['resolution_main_excursion_photo']
+                        ];
+
+                        ImagickHelper::Thumb($post, $model, 'main_photo');
                     }
+                }
+                elseif ($key == 'map'){
+                    if($file = $model->upload('map')){
+                        $model->map = $file;
+                    }
+                }
+                else{
                     $model->$key = $value;
                 }
-            }
-            if($file = $model->upload()){
-                $model->main_photo = $file;
-
-                $resolutions = explode("x", Yii::$app->params['resolution_main_excursion_photo']);
-
-                $post = [
-                    'id' => $model->id,
-                    'x1' => '0',
-                    'y1' => '0',
-                    'x2' => $resolutions[0],
-                    'y2' => $resolutions[1],
-                    'r' => Yii::$app->params['resolution_main_excursion_photo']
-                ];
-
-                ImagickHelper::Thumb($post, $model, 'main_photo');
             }
             $model->save();
         }
