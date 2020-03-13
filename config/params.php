@@ -3,7 +3,7 @@
 $path = $_SERVER['DOCUMENT_ROOT'];
 return [
     //'adminEmail' => 'admin@example.com',
-    'resolution_main_sanatorium_photo' => '500x300',
+    'resolution_main_excursion_photo' => '500x300',
 
     'monhts_to_russian'             => [
                                         'Января',
@@ -46,8 +46,8 @@ return [
     'full_path_to_sanatoriums_galleries_images'        =>  $path.'/content/sanGalleries/',
     'path_to_sanatoriums_galleries_images'             =>  '/content/sanGalleries/',
 
-    'full_path_to_sanatoriums_photo'        =>  $path.'/content/images/sans/',
-    'path_to_sanatoriums_photo'             =>  '/content/images/sans/',
+    'full_path_to_excursion_photo'        =>  $path.'/content/images/exc/',
+    'path_to_excursion_photo'             =>  '/content/images/exc/',
 
 
     'full_path_to_sliders_images'          =>  $path.'/content/sliders/',

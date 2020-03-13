@@ -9,4 +9,11 @@ web/content/galleries
 web/content/files
 web/content/sanGalleries
 web/content/images
-
+web/ckfinder
+web/admFiles/_ckeditor
+web/admFiles/_ckfinder
+web/admFiles/ckeditor
+web/admFiles/ckfinder
+web/admFiles/js/codemirror
+web/admFiles/js/vakata-jstree-bc5187e
+web/admFiles/js/*.zip

@@ -372,8 +372,8 @@ $(document).ready(function() {
                 y2: y2,
                 r: $('#Photo_ratio_'+id).val(),
             }
-            if($('select').is('.is_main_sanatorium_photo')) {
-                arrPost['is_main_sanatorium_photo'] = true;
+            if($('select').is('.is_main_excursion_photo')) {
+                arrPost['is_main_excursion_photo'] = true;
             }
             console.log(arrPost);
             data = getRequestBody(arrPost);
