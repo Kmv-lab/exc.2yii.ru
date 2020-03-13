@@ -1,0 +1,185 @@
+[ckid=page-page_content]>div{display: inline!important;}
+
+.image_thumb{
+    border: 2px solid #C2C2C2;
+    padding: 20px 0px;
+    background: #EBEBEB;
+}
+.image_thumb .img-thumbnail{
+    padding: 1px;
+    background-color: white;
+}
+#dialog-thumb .jcrop-keymgr{
+    display:none;
+}
+#dialog-thumb .modal-body{overflow: auto;}
+
+.resolution_input{position: relative;
+    z-index: 10;
+    background: white;margin-left: 200px;}
+
+.container-elem-main-page{
+    padding: 20px;
+}
+
+div.form-add-new-block{
+    background: #cccc;
+}
+
+.form-add-new-block>form{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-add-new-block .flex-box-adm{
+    padding-bottom: 20px;
+}
+
+.form-add-new-block .flex-box-adm>div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-add-new-block .flex-box-adm>div>label{
+    padding-right: 10px;
+}
+
+.elem-adm-block{
+    margin-bottom: 20px;
+    border: 1px solid #888888;
+    padding: 30px 20px;
+    background: #61444488;
+    position: relative;
+}
+
+.is-active, div.green{
+    background: #44614488;
+}
+
+.block-priority-and-active>div:first-child{
+    display: flex;
+}
+
+.btn-delete-block{
+    color: #0a0a0a;
+    background: #de757e;
+    order: 1;
+}
+
+.container-elem-main-page form button{
+    display: block;
+    margin-top: 10px;
+}
+
+.glyphicon::before{
+    padding: 5px;
+}
+
+.img-main-san{
+    width: 20%;
+    display: block;
+    padding-bottom: 30px;
+}
+
+.modal-body>#target{
+    width: 100%;
+}
+
+.img-for-main-page{
+    width: 50%;
+    height: auto;
+    margin-left: 25%;
+}
+
+.block-adm-to-edit{
+    padding: 20px 0;
+}
+
+.flex-box-adm{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.old-desc{
+    padding: 5px;
+    background: #fff;
+}
+
+.CodeMirror, .container-elem-main-page form input{
+    border: 1px solid #aaa;
+}
+
+.elems-for-change>.container-elem-main-page:nth-child(odd){
+    background: #cccc;
+}
+
+.elems-for-change>.container-elem-main-page:nth-child(even){
+    background: #dddc;
+}
+
+.table-adm-info{
+    display: block;
+}
+
+.elem-adm-info{
+    display: flex;
+    padding: 10px 0;
+}
+
+.elem-adm-info>div{
+    display: block;
+    padding: 20px 20px;
+    font-style: oblique;
+}
+
+div.name-of-elem-adm-info{
+    display: block;
+    width: 20%;
+    font-style:italic;
+    background: #ccf;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+div.content-of-elem-adm-info{
+    display: block;
+    width: 30%;
+    background: #cfc;
+    font-style: normal;
+    font-size: 20px;
+}
+
+.desc-of-elem-adm-info{
+    display: block;
+    width: 50%;
+    background: #fcc;
+    font-size: 18px;
+}
+
+.form-new-inform-block{
+    margin-top: 50px;
+}
+
+.form-new-inform-block .flex-box-adm{
+
+}
+
+.form-new-inform-block .flex-box-adm>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100px;
+}
+
+.form-new-inform-block .flex-box-adm>div label{
+     display: block;
+     font-size: 20px;
+     font-style: normal;
+}
+
+.form-new-inform-block .flex-box-adm>div input{
+    width: 90%;
+}

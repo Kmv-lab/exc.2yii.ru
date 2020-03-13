@@ -1,0 +1,495 @@
+@import url('https://fonts.googleapis.com/css?family=Heebo&display=swap');
+
+*{
+    font-family: "Heebo", sans-serif;
+    font-size: 18pt;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+.text-with-red-symbol::first-letter {
+    float: left;
+    padding: 0.13em 0.1em 0.06em 0;
+    margin-right: 5px;
+    font-size: 3em;
+    font-weight: 400;
+    line-height: .7;
+    border-radius: 6px;
+}
+
+body{
+    margin: 0;
+    font-size: 16px;
+    font-weight: 300;
+    color: #3e3e47;
+    text-align: left;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.center-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    overflow: hidden;
+}
+
+.content{
+    width: 100%;
+    padding: 0 20px;
+}
+
+span{
+    padding-bottom: 10px;
+}
+
+.header-color{
+    background: #9aff8e;
+}
+
+.full-content *{
+    overflow: hidden;
+}
+
+.price-value{
+    font-weight: 600;
+}
+
+ul{
+    text-align: left;
+    text-indent: 25px;
+}
+
+.sanatorium-room-price-table-container *{
+    font-size: 15px;
+    text-align: center;
+}
+
+@media (min-width: 1200px) {
+    .fancybox-content#testube{
+        width: 90%;
+        height: 90%;
+    }
+
+    .fancybox-content>iframe{
+        width: 100%;
+        height: 100%;
+    }
+}
+
+
+/*----------------------------------------------------------------header css START*/
+.header{
+    overflow: hidden;
+    height: 80px;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+}
+
+.nav-menu{
+    margin-left: 0;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-elem{
+    white-space: nowrap;
+}
+
+.nav-container>ul>li{
+    list-style-type: none;
+}
+
+.nav-container {
+    position: fixed;
+    top: 80px;
+    width: 70%;
+    height: calc(90vh - 80px);
+    left: 0;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.content{
+    width: 100%;
+}
+
+.title-name-block{
+}
+
+.title-name{
+    font-size: 6vw;
+    font-weight: 700;
+    padding: 0;
+    max-height: 70px;
+    overflow: hidden;
+}
+
+.menu-open-img{
+    width: 40px;
+}
+
+.phone-block{
+    padding: 0 0 10px 0;
+    flex-direction: column;
+    margin-top: 80px;
+    margin-left: -15px;
+    width: calc(100% + 30px);
+}
+
+.call-back-button{
+    width: 80%;
+    text-align: center;
+}
+
+.nav-menu>li{
+    list-style-type: none;
+}
+
+.visible-lg-not-important{
+    display: none;
+}
+
+@media (min-width: 1200px) {
+    .nav-container{
+        display: flex;
+        position: unset;
+        background: unset;
+        height: unset;
+        width: unset;
+    }
+
+    .nav-menu {
+        flex-direction: row;
+    }
+
+    .title-name {
+        padding-bottom: 10px;
+        font-size: 2.5vw;
+    }
+
+    .glyphicon{
+        display: initial;
+    }
+
+    .phone-block{
+        align-items: center;
+        padding-left: 60%;
+        padding-right: 25%;
+    }
+
+    .call-back-button{
+        width: 100%;
+    }
+}
+/*----------------------------------------------------------------header css END*/
+
+
+
+/*----------------------------------------------------------------footer css START*/
+.footer-block{
+    width: 100%;
+    background: #000;
+    color: #ccc;
+    position: absolute;
+    left: 0;
+}
+/*----------------------------------------------------------------footer css END*/
+
+
+
+/*----------------------------------------------------------------index css START*/
+.text-on-index{
+    padding: 20px 0;
+    text-align: justify;
+}
+
+.filters{
+    display: none;
+    width: 100%;
+    height: 150px;
+    background: #626a6f;
+}
+
+.filter-button-on-index{
+    width: 100%;
+}
+
+.sanatory-elem{
+    flex-direction: column;
+    border-bottom: 2px solid #baf984cc;
+    border-top: 2px solid #baf984cc;
+    padding: 5px 0;
+    margin: 30px 0;
+}
+
+.sanatory-elem>h2{
+    margin: 0 auto;
+    text-align: center;
+    overflow: hidden;
+    color: #5d5d66;
+    font-weight: 600;
+}
+
+.sanatory-elem button{
+    padding: 5px;
+}
+
+.sanatory-elem button .glyphicon {
+    padding: 0 10px 0 0;
+}
+
+.img-of-sanatory-prev{
+    width: 100%;
+}
+
+.ceo-text-on-index{
+    display: block;
+    text-align: justify;
+}
+
+.ceo-text-on-index>p{
+    word-wrap: break-word;
+    color: #5d5d66;
+    font-size: 17px;
+}
+
+.price_sanatory{
+    font-size: 20px;
+}
+
+.important-text-on-index{
+    font-size: 18px;
+    overflow: hidden;
+}
+
+@media (min-width: 1200px) {
+
+    .content-index {
+        padding: 0 5% 0 25%;
+    }
+
+    .content{
+        padding: 0 15%;
+    }
+
+    .filter-block{
+        position: fixed;
+        left: 3%;
+        width: 20%;
+    }
+
+    .sanatory-elem{
+        height: 450px;
+        padding: 5px 10px;
+        margin: 0;
+        margin-bottom: 50px;
+    }
+
+    .sanatory-elem>img{
+        height: 200px;
+        width: auto;
+        max-height: 40%;
+    }
+
+    .sanatory-elem h2{
+        height: 25%;
+    }
+}
+/*----------------------------------------------------------------index css END*/
+
+
+
+/*----------------------------------------------------------------sanatorium detail css START*/
+.sanatorium-img-and-video{
+    flex-direction: column;
+    background: #f4f0ecdd;
+}
+
+.sanatorium-block{
+    display: block;
+    margin-top: 50px;
+}
+
+h1.sanatorium-title{
+    text-align: center;
+}
+
+.sanatorium-desc{
+    text-align: center;
+}
+
+span.sanatorium-desc>ul{
+    padding: 0;
+}
+
+span.sanatorium-desc-option-serv, span.sanatorium-heal-base{
+    font-size: 20px;
+}
+
+img.icon-elem-sanatorium-profile{
+    width: 20px;
+    height: auto;
+}
+
+.sanatorium-heal-profile{
+    flex-direction: column;
+}
+
+.full-content .el-inner-owl{
+    width: 90%;
+    margin-left: 5%;
+}
+
+.sanatorium-room-desc-and-img{
+    background: #d6f9be;
+    margin-bottom: 30px;
+    padding: 10px;
+}
+
+.desc-room *{
+    font-size: 20px;
+    color: #0a0a0acc;
+}
+
+.elem-sanatorium-profile{
+    display: flex;
+}
+
+.sanatorium-heal-option{
+    padding-top: 30px;
+}
+
+.name-elem-sanatorium-profile{
+    padding-left: 20px;
+}
+
+.sanatorium-room-price-table{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: unset;
+}
+
+.sanatorium-room-price-table-container>h1{
+    font-size: 7vw;
+    text-align: center;
+}
+
+.sanatorium-room-price-table>.s-table-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.s-table-row>div{
+    border: 1px solid #0a0a0a;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    width: 25%;
+    align-items: center;
+}
+
+.s-table-row>div.s-table-name-row{
+    flex-grow: 2;
+}
+
+@media (min-width: 1200px) {
+    .sanatorium-room-price-table-container > h1 {
+        font-size: 2vw;
+    }
+
+    .sanatorium-room-price-table {
+        width: 100%;
+        overflow: unset;
+    }
+}
+/*----------------------------------------------------------------sanatorium detail css END*/
+
+
+
+/*----------------------------------------------------------------owlCarusel css START*/
+.owl-carousel .owl-dots>button.owl-dot{
+
+    border-radius: 100%;
+    padding: 10px !important;
+}
+
+.owl-carousel .owl-dots>button.owl-dot>span{
+    background: #9aff8e;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    display: block;
+}
+
+.owl-carousel .owl-dots>button.active>span{
+    background: #0a0a0a;
+}
+
+.owl-dots{
+    display: flex;
+    justify-content: center;
+}
+/*----------------------------------------------------------------owlCarusel css END*/
+
+
+
+/*----------------------------------------------------------------prices css START*/
+.prices-block{
+    display: none;
+}
+
+.elem-of-table-price>h1{
+    font-size: 25px;
+    margin: 0;
+    padding: 5px;
+    width: 100%;
+    border-right: 1px solid #c1c4c0;
+}
+
+.elem-of-table-price>span{
+    padding-left: 5px;
+    padding-bottom: 0;
+}
+
+.elem-of-table-price{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.block-prices{
+    white-space: nowrap;
+}
+
+.san-price-block{
+    border-bottom: 1px solid #c1c4c0;
+}
+
+div.san-price-block:nth-child(2) {
+    border-top: 1px solid #c1c4c0;
+}
+
+@media (min-width: 1200px) {
+    .elem-of-table-price>h1{
+        width: 65%;
+    }
+
+    .elem-of-table-price{
+        flex-wrap: nowrap;
+    }
+}

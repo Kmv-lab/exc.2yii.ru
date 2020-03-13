@@ -1,0 +1,12 @@
+vendor
+.idea
+composer.lock
+composer.phar
+index.html
+_index.html
+web/img
+web/content/galleries
+web/content/files
+web/content/sanGalleries
+web/content/images
+
