@@ -371,11 +371,10 @@ $(document).ready(function() {
                 x2: x2,
                 y2: y2,
                 r: $('#Photo_ratio_'+id).val(),
-            }
+            };
             if($('select').is('.is_main_excursion_photo')) {
                 arrPost['is_main_excursion_photo'] = true;
             }
-            console.log(arrPost);
             data = getRequestBody(arrPost);
             $.ajax({
                 type: "POST",
@@ -389,13 +388,14 @@ $(document).ready(function() {
 
                         $( "#dialog-thumb" ).modal('hide');
 
-                        if(typeof arrPost.is_main_sanatorium_photo!== "undefined"){
+                        if(typeof arrPost.is_main_excursion_photo!== "undefined"){
                             let img = $('img.img-thumbnail');
                             img.attr("src", img.attr("src").split("?")[0] + "?" + Math.random());
                         }
-                        else if((arrPost.r != 0) && (typeof arrPost.is_main_sanatorium_photo === "undefined")){
+                        else if((arrPost.r != 0) && (typeof arrPost.is_main_excursion_photo === "undefined")){
                             var img = $('[data-id = '+id+']').parents('.image_thumb').find('[data-ratio = '+arrPost.r+']');
                             img.attr("src", img.attr("src").split("?")[0] + "?" + Math.random());
+
                         }
                         else{
                             window.location.reload();
@@ -419,6 +419,20 @@ $(document).ready(function() {
 
         $('.show-dialog-thumb').click(function(){
             id = $(this).data('id');
+
+            if ($('#dialog-thumb').hasClass('multi-exc')){
+
+                let url = $('#dialog-thumb').attr('data-url').split("name=");
+                if(url[1]){
+
+                    let newStr = $('#dialog-thumb').attr('data-url').replace(url[1], '');
+
+                    $('#dialog-thumb').attr('data-url', newStr);
+                }
+
+                $('#dialog-thumb').attr('data-url' ,$('#dialog-thumb').attr('data-url')+$(this).attr('data-name'));
+            }
+
             file_name = $(this).data('file_name');
             path_to_big = $( "#dialog-thumb").attr('data-big');
             html = ''+

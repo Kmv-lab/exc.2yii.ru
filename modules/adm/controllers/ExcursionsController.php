@@ -3,10 +3,9 @@
 namespace app\modules\adm\controllers;
 
 use app\commands\ImagickHelper;
-use app\models\SansPrev;
 use app\modules\adm\models\Excursions;
-use app\modules\adm\models\GPhotoSanatoriums;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 
 class ExcursionsController extends Controller
@@ -14,22 +13,13 @@ class ExcursionsController extends Controller
 
     public function actionIndex(){
 
-        if(\Yii::$app->request->isPost){
-            /*vd(Yii::$app->request->post(), false);
-            vd($_POST);*/
-        }
-
-        //dsd
-
         $model = new Excursions();
-
-        //vd($model);
 
         if ($post = Yii::$app->request->post()) {
             foreach ($post['Excursions'] as $key => $value) {
-                if (($key == 'main_photo') && ($value == '')){
-                    if($file = $model->upload('main_photo')){
-                        $model->main_photo = $file;
+                if (($key == 'main_photo') || ($key == 'map')){
+                    if($file = $model->upload($key)){
+                        $model->{$key} = $file;
 
                         $resolutions = explode("x", Yii::$app->params['resolution_main_excursion_photo']);
 
@@ -42,12 +32,7 @@ class ExcursionsController extends Controller
                             'r' => Yii::$app->params['resolution_main_excursion_photo']
                         ];
 
-                        ImagickHelper::Thumb($post, $model, 'main_photo');
-                    }
-                }
-                elseif ($key == 'map'){
-                    if($file = $model->upload('map')){
-                        $model->map = $file;
+                        ImagickHelper::Thumb($post, $model, $key);
                     }
                 }
                 else{
@@ -57,18 +42,25 @@ class ExcursionsController extends Controller
             $model->save();
         }
 
-        return $this->render('index', ['model' => $model]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Excursions::find(),
+        ]);
+
+        return $this->render('index', ['model' => $model, 'provider' => $dataProvider]);
     }
 
-    public function actionAjaxcreatethumb(){
+    public function actionUpdate($idExc){
+        $model = Excursions::find()->where(['id' => $idExc])->one();
+        //vd($model);
+        return $this->render('update', ['model' => $model]);
+    }
+
+    public function actionAjaxcreatethumb($idExc, $name){
         $this->enableCsrfValidation = false;
 
-        //vd(Yii::$app->request->post());
-        if (isset($_POST['is_main_excursion_photo'])){
-            $model = Excursions::findOne($_POST['id']);
-        }
+        $model = Excursions::findOne($idExc);
 
-        return json_encode(ImagickHelper::Thumb($_POST, $model));
+        return json_encode(ImagickHelper::Thumb($_POST, $model, $name));
     }
 
 }

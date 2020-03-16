@@ -256,7 +256,6 @@ class ImagickHelper
         if(!class_exists('\Imagick')){
             throw new NotFoundHttpException('Imagick не найден.');
         }
-        //vd($post);
         $x1 = round($post['x1']);//0
         $y1 = round($post['y1']);//1
         $x2 = round($post['x2']);//504

@@ -1,6 +1,7 @@
 <?php
 
 use app\modules\adm\models\Excursions;
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -77,6 +78,23 @@ $towns = [
         $form::end();
         ?>
     </div>
+
+    <?php
+
+    echo GridView::widget([
+        'dataProvider' => $provider,
+        'columns' => [
+            'id',
+            [
+                'attribute' => 'Название',
+                'content'=>function($data){
+                    return Html::a('<span class="glyphicon glyphicon-pencil"></span> '.$data['name'], ['update', 'idExc'=>$data['id']], ['class' => 'btn btn-primary btn-xs']);
+                }
+            ],
+        ]
+    ]);
+
+    ?>
 
 </div>
 

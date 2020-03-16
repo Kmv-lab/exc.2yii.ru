@@ -52,8 +52,6 @@ class GalleriesController extends Controller
 
         $this->fillDopContent();
 
-        //vd($this->view->params, false);
-        //vd($model);
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -141,7 +139,7 @@ class GalleriesController extends Controller
         $this->enableCsrfValidation = false;
         $model = GalleryPhoto::findOne($_POST['id']);
 
-        vd($model);
+        //vd($model);
 
         return json_encode(ImagickHelper::Thumb($_POST, $model));
     }
