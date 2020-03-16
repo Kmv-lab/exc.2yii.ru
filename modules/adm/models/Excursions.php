@@ -22,6 +22,29 @@ class Excursions extends ActiveRecord
         return Yii::$app->params['path_to_excursion_photo'];
     }
 
+    public function rules()
+    {
+        return [
+            [['name','desc','video_src','id_guide','distance',
+                'rating','id_town', 'duration','time_start','time_end'],
+                'filter','filter'=>'trim'],
+            ['main_photo', 'file',
+                'extensions' => 'jpg, jpeg, png',
+                'maxFiles' => 1,
+                'minSize'=>Yii::$app->params['min_image_size_for_upload'],
+                'maxSize'=>Yii::$app->params['max_image_size_for_upload'],
+                'tooBig'=>'Одна или несколько фотографий больше {formattedLimit}',
+                'tooSmall'=>'Одна или несколько фотографий меньше {formattedLimit}',],
+            ['map', 'file',
+                'extensions' => 'jpg, jpeg, png',
+                'maxFiles' => 1,
+                'minSize'=>Yii::$app->params['min_image_size_for_upload'],
+                'maxSize'=>Yii::$app->params['max_image_size_for_upload'],
+                'tooBig'=>'Одна или несколько фотографий больше {formattedLimit}',
+                'tooSmall'=>'Одна или несколько фотографий меньше {formattedLimit}',],
+        ];
+    }
+
     public static function tableName()
     {
         return 'excursions';
@@ -30,11 +53,9 @@ class Excursions extends ActiveRecord
     public function upload($name){
         $file = UploadedFile::getInstance($this, $name);
 
-        //vd($this->{$name});
-
         if ($file){
-            if ($this->{$name}){
-                $this->deleteOldPhoto($name, $this->{$name});
+            if ($this->oldAttributes[$name]){
+                $this->deleteOldPhoto($name, $this->oldAttributes[$name]);
             }
             $file->name = strtolower(md5(uniqid($file->baseName))). '.' . $file->extension;
             $file->saveAs( $this->DIR().'original/'.$file->name);
@@ -58,6 +79,19 @@ class Excursions extends ActiveRecord
             unlink($this->DIR().Yii::$app->params['resolution_main_excursion_photo'].'/'.$fileName);
         }
         return;
+    }
+
+    public function attrLoad($post, $nameParam = null){
+        if (parent::load($post, $nameParam)){
+            $data = $post[$this->formName()];
+
+            foreach ($data as $key => $value){
+                $this->$key = $value;
+            }
+        }
+        return ;
+
+
     }
 
 }

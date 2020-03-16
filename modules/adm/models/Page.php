@@ -158,6 +158,7 @@ class Page extends \yii\db\ActiveRecord
 
 
     public function upload(){
+
         if($this->validate()){
             if($this->file_name = UploadedFile::getInstance($this, 'file_name')){
                 if($this->validate()){

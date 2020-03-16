@@ -20,8 +20,8 @@ use yii\helpers\Url;
             ],]); ?>
 
         <?php $pages_list = $model->getAllChildPages();
-        $disabled_parent_change = $model->no_change_position ? ['inputOptions' => ['disabled' => 'disabled']] : [];
-        echo $form->field($model, 'id_parent_page', $disabled_parent_change)->dropDownList($pages_list['list'], ['options'=>$pages_list['disabled'],]) ?>
+        //$disabled_parent_change = $model->no_change_position ? ['inputOptions' => ['disabled' => 'disabled']] : [];
+        echo $form->field($model, 'id_parent_page'/*, $disabled_parent_change*/)->dropDownList($pages_list['list'], ['options'=>$pages_list['disabled'],]) ?>
 
         <?= $form->field($model, 'page_name', ['inputOptions' => ['class' => 'translit_source form-control']])->textInput(['maxlength' => true]) ?>
 

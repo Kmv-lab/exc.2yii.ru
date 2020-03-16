@@ -31,7 +31,8 @@ $sanId = '1';
     <div class="new-elem-craete">
 
         <?
-        $form = ActiveForm::begin([
+        $form = ActiveForm::begin(['id' => 'excursion-form',
+            'enableClientValidation'=>false,
             'options' => [
                 'class' => 'sanatorium-page form-horizontal',
             ],
@@ -49,7 +50,7 @@ $sanId = '1';
         <?=$form->field($model, 'main_photo')->fileInput([
             'multiple' => false,
             'id' => "main_photo",
-        ])->label('Главная картинка санатория');?>
+        ])->label('Главная картинка Экскурсии');?>
         <?php
 
         if (is_file(Excursions::DIR().'original/'.$model['main_photo'])){?>
@@ -83,7 +84,7 @@ $sanId = '1';
 
         <?}?>
 
-        <?=$form->field($model, 'video_src')->label('Ссылка на видео(YouTube.com)')->textInput()?>
+        <?=$form->field($model, 'video_src')->label('Ссылка на видео(YouTube.com)')->textInput(['value' => 'https://www.youtube.com/watch?v='.$model->video_src])?>
 
         <!--Выбор гида-->
         <?=$form->field($model, 'id_guide')->label('Выбор экскурсовода')->dropDownList($guides, ['prompt' => 'Экскурсовод не выбран!']);?>
