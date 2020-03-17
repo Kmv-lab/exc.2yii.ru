@@ -9,13 +9,6 @@ use yii\widgets\ActiveForm;
 $this->registerJsFile('/js/jcrop/jquery.Jcrop.min.js', ['depends'=>['yii\web\JqueryAsset']]);
 $this->registerCssFile('/js/jcrop/jquery.Jcrop.min.css');
 
-$guides = [
-    1 => 'Алексеев Никита Хрушёвич',
-    2 => 'Николаев Игорь Игорьевич',
-    3 => 'Брюзга Василий Петрович',
-    4 => 'Дуркин Дурак Дуракович'
-];
-
 $towns = [
     1 => 'Ессентуки',
     2 => 'Пятигорск',

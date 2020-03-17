@@ -91,6 +91,12 @@ $towns = [
                     return Html::a('<span class="glyphicon glyphicon-pencil"></span> '.$data['name'], ['update', 'idExc'=>$data['id']], ['class' => 'btn btn-primary btn-xs']);
                 }
             ],
+            [
+                'attribute' => 'Удалить',
+                'content'=>function($data){
+                    return Html::a('<span class="glyphicon glyphicon-trash"></span> ', ['delete', 'idExc'=>$data['id']], ['class' => 'btn btn-danger deleteItem']);
+                }
+            ],
         ]
     ]);
 

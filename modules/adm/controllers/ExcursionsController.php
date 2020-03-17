@@ -4,8 +4,10 @@ namespace app\modules\adm\controllers;
 
 use app\commands\ImagickHelper;
 use app\modules\adm\models\Excursions;
+use app\modules\adm\models\Guides;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use yii\web\Controller;
 
 class ExcursionsController extends Controller
@@ -71,8 +73,31 @@ class ExcursionsController extends Controller
             //vd($model);
         }
 
+        $rows = (new Query())
+            ->select(['id', 'name'])
+            ->from('guides')
+            ->all();
 
-        return $this->render('update', ['model' => $model]);
+
+        $guides = $this->convertDataToDDArray($rows);
+
+
+        return $this->render('update', ['model' => $model, 'guides' => $guides]);
+    }
+
+    public function actionDelete($idExc){
+        $model = Excursions::findOne($idExc);
+
+        if(isset($model->main_photo))
+            $model->deleteOldPhoto('main_photo');
+        if(isset($model->map))
+            $model->deleteOldPhoto('map');
+
+
+            $model->delete();
+
+
+        return $this->redirect(['index']);
     }
 
     public function actionAjaxcreatethumb($idExc, $name){
@@ -96,6 +121,13 @@ class ExcursionsController extends Controller
         ];
 
         ImagickHelper::Thumb($post, $model, $key);
+    }
+
+    public function convertDataToDDArray($data){
+        foreach ($data as $value){
+            $array[$value['id']] = $value['name'];
+        }
+        return $array;
     }
 
     public function getIdYouTubeVideo($content){

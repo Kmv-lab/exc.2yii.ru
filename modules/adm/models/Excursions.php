@@ -54,7 +54,7 @@ class Excursions extends ActiveRecord
         $file = UploadedFile::getInstance($this, $name);
 
         if ($file){
-            if ($this->oldAttributes[$name]){
+            if (isset($this->oldAttributes[$name]) && $this->oldAttributes[$name]){
                 $this->deleteOldPhoto($name, $this->oldAttributes[$name]);
             }
             $file->name = strtolower(md5(uniqid($file->baseName))). '.' . $file->extension;

@@ -42,7 +42,7 @@ AdminAsset::register($this);
                 ['label' => 'Новости', 'url' =>  ['news/index', 'type'=>1]],
                 ['label' => 'Блог', 'url' =>  ['news/index', 'type'=>2]],
                 ['label' => 'Спецпредложения', 'url' =>  ['spec/index']],
-                ['label' => 'Акции', 'url' =>  ['actions/index']],
+                ['label' => 'Экскурсоводы', 'url' =>  ['guides/index']],
                 ['label' => 'Экскурсии', 'url' =>  ['excursions/index']],
                 ['label' => 'Тест новой стр', 'url' =>  ['test_new_str/index']],
                 ['label' => 'SEO', 'url' =>  ['static_seo/index']],
