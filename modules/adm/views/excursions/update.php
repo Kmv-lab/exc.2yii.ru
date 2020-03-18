@@ -208,4 +208,48 @@ $sanId = '1';
         <?$form2::end();?>
     </div>
 
+    <h2>Дополнительные расходы</h2>
+    <div class="block-advices">
+        <?php
+        $form3 = ActiveForm::begin(['id' => 'advices-excursion-form',
+            'enableClientValidation'=>false,
+            'options' => [
+                'class' => 'sanatorium-page',
+            ],
+        ]);
+        //echo Html::beginForm(['', 'idExc' => $model->id], 'post', ['enctype' => 'multipart/form-data']);
+        ?>
+
+        <div class="checkbox-block options-exc">
+
+            <?php
+            $optionsArray = $optionsModel->getAdvicesIds();
+
+            foreach ($optionsArray as $key=>$option){
+                ?>
+                <?php
+                $template = [
+                    'labelOptions'=>['class'=>'col-lg-3'],
+                    'template' =>   '<div class="elem-checkbox">{input}'.
+                        '<img src="'.
+                        ExcursionAdvices::DIR().
+                        $optionsModel->getAdvicesFile($key).
+                        '"><span>'.
+                        $optionsModel->getAdvicesName($key).
+                        '</span></div>',
+                ];
+                ?>
+                <?= $form3->field($optionsModel, $key, $template)->checkbox([], false)->label(false) ?>
+
+            <?}?>
+
+        </div>
+
+        <?=Html::submitButton('<span class="glyphicon glyphicon-floppy-disk"></span> '.'Сохранить', [
+            'class' => 'btn btn-lg btn-primary'
+        ]);?>
+
+        <?$form3::end();?>
+    </div>
+
 </div>

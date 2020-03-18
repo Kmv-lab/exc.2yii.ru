@@ -227,3 +227,7 @@ div.content-of-elem-adm-info{
     background: #ffffff;
     padding: 5px;
 }
+
+.options-exc div.elem-checkbox img{
+    background: #205885;
+}

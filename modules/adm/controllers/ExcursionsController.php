@@ -4,6 +4,7 @@ namespace app\modules\adm\controllers;
 
 use app\commands\ImagickHelper;
 use app\modules\adm\models\ExcursionAdvices;
+use app\modules\adm\models\ExcursionOptions;
 use app\modules\adm\models\Excursions;
 use app\modules\adm\models\Guides;
 use Yii;
@@ -58,20 +59,15 @@ class ExcursionsController extends Controller
         if((Yii::$app->request->isPost) && (isset($_POST['ExcursionAdvices']))){
             $post = Yii::$app->request->post();
             $post = $post['ExcursionAdvices'];
-
             foreach ($post as $key=>$value){
                 if($value){
-
                     $newAdvice = ExcursionAdvices::find()->where(['id_exc' => $idExc, 'id_adv' => $key])->one();
                     if($newAdvice)
                         continue;
-
                     $newAdvice = new ExcursionAdvices();
                     $newAdvice->id_exc = $idExc;
                     $newAdvice->id_adv = $key;
-
                     $newAdvice->save();
-
                 }
                 else{
                     $newAdvice = ExcursionAdvices::find()->where(['id_exc' => $idExc, 'id_adv' => $key])->one();
@@ -79,6 +75,28 @@ class ExcursionsController extends Controller
                         $newAdvice->delete();
                 }
                 unset($newAdvice);
+            }
+        }
+
+        if((Yii::$app->request->isPost) && (isset($_POST['ExcursionOptions']))){
+            $post = Yii::$app->request->post();
+            $post = $post['ExcursionOptions'];
+            foreach ($post as $key=>$value){
+                if($value){
+                    $newOption = ExcursionOptions::find()->where(['id_exc' => $idExc, 'id_option' => $key])->one();
+                    if($newOption)
+                        continue;
+                    $newOption = new ExcursionOptions();
+                    $newOption->id_exc = $idExc;
+                    $newOption->id_option = $key;
+                    $newOption->save();
+                }
+                else{
+                    $newOption = ExcursionOptions::find()->where(['id_exc' => $idExc, 'id_option' => $key])->one();
+                    if($newOption)
+                        $newOption->delete();
+                }
+                unset($newOption);
             }
         }
 
@@ -102,6 +120,13 @@ class ExcursionsController extends Controller
             $model->save();
         }
 
+        $optionsArray = ExcursionOptions::find()->asArray()->where(['id_exc' => $idExc])->all();
+        $options = new ExcursionOptions();
+
+        foreach ($optionsArray as $key=>$value){
+            $options->{$value['id_option']} = 1;
+        }
+
         $advicesArray = ExcursionAdvices::find()->asArray()->where(['id_exc' => $idExc])->all();
         $advices = new ExcursionAdvices();
 
@@ -111,7 +136,12 @@ class ExcursionsController extends Controller
 
         //vd($advices);
 
-        return $this->render('update', ['model' => $model, 'guides' => $this->convertDataToDDArray($guides), 'advicesModel' => $advices]);
+        return $this->render('update', [
+            'model' => $model,
+            'guides' => $this->convertDataToDDArray($guides),
+            'advicesModel' => $advices,
+            'optionsModel' => $options
+        ]);
     }
 
     public function actionDelete($idExc){
