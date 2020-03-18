@@ -3,6 +3,7 @@
 namespace app\modules\adm\controllers;
 
 use app\commands\ImagickHelper;
+use app\modules\adm\models\ExcursionAdvices;
 use app\modules\adm\models\Excursions;
 use app\modules\adm\models\Guides;
 use Yii;
@@ -47,7 +48,40 @@ class ExcursionsController extends Controller
     }
 
     public function actionUpdate($idExc){
+
         $model = Excursions::findOne($idExc);
+        $guides = (new Query())
+            ->select(['id', 'name'])
+            ->from('guides')
+            ->all();
+
+        if((Yii::$app->request->isPost) && (isset($_POST['ExcursionAdvices']))){
+            $post = Yii::$app->request->post();
+            $post = $post['ExcursionAdvices'];
+
+            foreach ($post as $key=>$value){
+                if($value){
+
+                    $newAdvice = ExcursionAdvices::find()->where(['id_exc' => $idExc, 'id_adv' => $key])->one();
+                    if($newAdvice)
+                        continue;
+
+                    $newAdvice = new ExcursionAdvices();
+                    $newAdvice->id_exc = $idExc;
+                    $newAdvice->id_adv = $key;
+
+                    $newAdvice->save();
+
+                }
+                else{
+                    $newAdvice = ExcursionAdvices::find()->where(['id_exc' => $idExc, 'id_adv' => $key])->one();
+                    if($newAdvice)
+                        $newAdvice->delete();
+                }
+                unset($newAdvice);
+            }
+        }
+
         if($model->load(Yii::$app->request->post())){
             $model->video_src = $this->getIdYouTubeVideo($model->video_src);
             if ($file = $model->upload('main_photo')){
@@ -65,24 +99,19 @@ class ExcursionsController extends Controller
             else{
                 $model->map = $model->oldAttributes['map'];
             }
-
-            //vd($model->oldAttributes);
-
             $model->save();
-
-            //vd($model);
         }
 
-        $rows = (new Query())
-            ->select(['id', 'name'])
-            ->from('guides')
-            ->all();
+        $advicesArray = ExcursionAdvices::find()->asArray()->where(['id_exc' => $idExc])->all();
+        $advices = new ExcursionAdvices();
 
+        foreach ($advicesArray as $key=>$value){
+            $advices->{$value['id_adv']} = 1;
+        }
 
-        $guides = $this->convertDataToDDArray($rows);
+        //vd($advices);
 
-
-        return $this->render('update', ['model' => $model, 'guides' => $guides]);
+        return $this->render('update', ['model' => $model, 'guides' => $this->convertDataToDDArray($guides), 'advicesModel' => $advices]);
     }
 
     public function actionDelete($idExc){

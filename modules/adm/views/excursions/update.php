@@ -1,6 +1,7 @@
 <?php
 
 use app\models\SansPrev;
+use app\modules\adm\models\ExcursionAdvices;
 use app\modules\adm\models\Excursions;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -162,4 +163,49 @@ $sanId = '1';
         $form::end();
         ?>
     </div>
+
+    <h2>Советы экскурсовода</h2>
+    <div class="block-advices">
+        <?php
+        $form2 = ActiveForm::begin(['id' => 'advices-excursion-form',
+            'enableClientValidation'=>false,
+            'options' => [
+                'class' => 'sanatorium-page',
+            ],
+        ]);
+        //echo Html::beginForm(['', 'idExc' => $model->id], 'post', ['enctype' => 'multipart/form-data']);
+        ?>
+
+        <div class="checkbox-block">
+
+        <?php
+        $advices_array = $advicesModel->getAdvicesIds();
+
+        foreach ($advices_array as $key=>$advice){
+        ?>
+                <?php
+                $template = [
+                    'labelOptions'=>['class'=>'col-lg-3'],
+                    'template' =>   '<div class="elem-checkbox">{input}'.
+                                    '<img src="'.
+                                    ExcursionAdvices::DIR().
+                                    $advicesModel->getAdvicesFile($key).
+                                    '"><span>'.
+                                    $advicesModel->getAdvicesName($key).
+                                    '</span></div>',
+                ];
+                ?>
+                <?= $form2->field($advicesModel, $key, $template)->checkbox([], false)->label(false) ?>
+
+        <?}?>
+
+        </div>
+
+        <?=Html::submitButton('<span class="glyphicon glyphicon-floppy-disk"></span> '.'Сохранить', [
+            'class' => 'btn btn-lg btn-primary'
+        ]);?>
+
+        <?$form2::end();?>
+    </div>
+
 </div>

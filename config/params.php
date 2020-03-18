@@ -49,7 +49,6 @@ return [
     'full_path_to_excursion_photo'        =>  $path.'/content/images/exc/',
     'path_to_excursion_photo'             =>  '/content/images/exc/',
 
-
     'full_path_to_sliders_images'          =>  $path.'/content/sliders/',
     'path_to_sliders_images'               =>  '/content/sliders/',
 
