@@ -23,7 +23,7 @@ $towns = [
 
 <div class="container">
 
-    <div class="btn-success new-elem-exc">Создать новую экскурсию</div>
+    <button class="btn-success new-elem-exc">Создать новую экскурсию</button>
     <div class="new-elem-craete" style="display: none">
 
         <?

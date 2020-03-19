@@ -267,6 +267,7 @@ class ImagickHelper
         $DIR = $model->DIR();
         $folder_origin = 'original';
         $newImage = new \Imagick($DIR.$folder_origin.'/'.$image[$name_param]);
+        //vd($newImage);
         $geometry = $newImage->getImageGeometry();
         //vd($post);
         if($ratio == 0){
@@ -319,7 +320,6 @@ class ImagickHelper
                     $newImage->writeImage($DIR.$widthR.'x'.$heightR.'/'.$image[$name_param]);
                     $newImage->destroy();
                     $newImage = new \Imagick($DIR.$folder_origin.'/'.$image[$name_param]);
-
                 }
             }
         }else{
@@ -328,6 +328,7 @@ class ImagickHelper
             $newImage->transformImageColorspace(\Imagick::COLORSPACE_RGB);
             $newImage->thumbnailImage($ratio[0], $ratio[1], false, false);
             $newImage = self::compress($newImage);
+
             $newImage->writeImage($DIR.$ratio[0].'x'.$ratio[1].'/'.$image[$name_param]);
         }
         return 'ok';

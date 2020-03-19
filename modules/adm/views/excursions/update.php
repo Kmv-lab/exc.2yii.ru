@@ -22,6 +22,8 @@ $sanId = '1';
 
 <div class="container">
 
+    <?=Html::a('Изменить фотографии для '.$model->name, Url::to(['excursions/all_photos', 'idExc' => $model->id]), ['class' => 'btn btn-primary']) ?>
+
     <div class="new-elem-craete">
 
         <?

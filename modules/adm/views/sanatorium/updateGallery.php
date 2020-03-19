@@ -20,7 +20,7 @@ use yii\helpers\Url;
                 'class' => 'form-horizontal',
                 // возможность загрузки файлов
                 'enctype' => 'multipart/form-data'
-            ],]); ?>
+            ],]);?>
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'id_resurs')->hiddenInput(['value' => $idRes])->label(false) ?>

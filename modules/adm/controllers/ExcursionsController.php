@@ -5,12 +5,14 @@ namespace app\modules\adm\controllers;
 use app\commands\ImagickHelper;
 use app\modules\adm\models\ExcursionAdvices;
 use app\modules\adm\models\ExcursionOptions;
+use app\modules\adm\models\ExcursionPhotos;
 use app\modules\adm\models\Excursions;
 use app\modules\adm\models\Guides;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\web\Controller;
+use yii\web\UploadedFile;
 
 class ExcursionsController extends Controller
 {
@@ -152,23 +154,70 @@ class ExcursionsController extends Controller
         if(isset($model->map))
             $model->deleteOldPhoto('map');
 
-
             $model->delete();
-
 
         return $this->redirect(['index']);
     }
 
-    public function actionAjaxcreatethumb($idExc, $name){
+    public function actionAll_photos($idExc){
+
+        $model = new ExcursionPhotos();
+        $uploadSuccess = false;
+
+        if (Yii::$app->request->isPost) {
+            $model->name = UploadedFile::getInstances($model, 'name');
+            if ($filesName = $model->upload()) {
+                $uploadSuccess = true;
+
+                foreach ($filesName as $value){
+                    $modelForUpload = new ExcursionPhotos();
+                    $modelForUpload->id_exc = $idExc;
+                    $modelForUpload->name = $value;
+
+
+                    $modelForUpload->save(false);
+
+                    $this->createThumbOfImage($modelForUpload, 'name', 'resolution_excursion_photo');
+                }
+            }
+        }
+
+        $photos = ExcursionPhotos::find()->where(['id_exc' => $idExc])->all();
+
+        //vd($photos);
+
+        return $this->render('allPhotos', [
+            'photos' => $photos,
+            'idExc' => $idExc,
+            'model' => $model,
+            'uploadSuccess' => $uploadSuccess,
+        ]);
+    }
+
+    public function actionAjaxcreatethumb($idExc, $name, $model=null){
+
         $this->enableCsrfValidation = false;
 
-        $model = Excursions::findOne($idExc);
+        if(!$model){
+            $model = Excursions::findOne($idExc);
+        }
+        else{
+            $model = ExcursionPhotos::findOne($_POST['id']);
+        }
 
         return json_encode(ImagickHelper::Thumb($_POST, $model, $name));
     }
 
-    public function createThumbOfImage($model, $key){
-        $resolutions = explode("x", Yii::$app->params['resolution_main_excursion_photo']);
+    public function actionDelete_photo($idExc, $idPhoto){
+        $model = ExcursionPhotos::findOne($idPhoto);
+        $model->deletePhoto();
+        $model->delete();
+
+        return $this->redirect(['all_photos', 'idExc' => $idExc]);
+    }
+
+    public function createThumbOfImage($model, $key, $resolution='resolution_main_excursion_photo'){
+        $resolutions = explode("x", Yii::$app->params[$resolution]);
 
         $post = [
             'id' => $model->id,
@@ -176,7 +225,7 @@ class ExcursionsController extends Controller
             'y1' => '0',
             'x2' => $resolutions[0],
             'y2' => $resolutions[1],
-            'r' => Yii::$app->params['resolution_main_excursion_photo']
+            'r' => Yii::$app->params[$resolution]
         ];
 
         ImagickHelper::Thumb($post, $model, $key);

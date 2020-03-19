@@ -5,6 +5,8 @@ return [
     //'adminEmail' => 'admin@example.com',
     'resolution_main_excursion_photo' => '500x300',
 
+    'resolution_excursion_photo' => '190x100',
+
     'monhts_to_russian'             => [
                                         'Января',
                                         'Февраля',

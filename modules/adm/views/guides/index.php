@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 
     <div class="container">
 
-        <div class="btn-success new-elem-exc">Добавить нового экскурсовода</div>
+        <button class="btn-success new-elem-exc">Добавить нового экскурсовода</button>
         <div class="new-elem-craete" style="display: none">
 
         <?php
