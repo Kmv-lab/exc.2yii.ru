@@ -6,6 +6,7 @@ use app\commands\ImagickHelper;
 use app\modules\adm\models\ExcursionAdvices;
 use app\modules\adm\models\ExcursionOptions;
 use app\modules\adm\models\ExcursionPhotos;
+use app\modules\adm\models\ExcursionPrices;
 use app\modules\adm\models\Excursions;
 use app\modules\adm\models\Guides;
 use Yii;
@@ -214,6 +215,35 @@ class ExcursionsController extends Controller
         $model->delete();
 
         return $this->redirect(['all_photos', 'idExc' => $idExc]);
+    }
+
+    public function actionPrices($idExc){
+        $model = new ExcursionPrices();
+
+        if(Yii::$app->request->isPost){
+            if(isset(Yii::$app->request->post()['ExcursionPrices']['id'])){
+                $idPrice = Yii::$app->request->post()['ExcursionPrices']['id'];
+                $existingPrice = ExcursionPrices::find()->where(['id' => $idPrice])->one();
+                if($existingPrice->load(Yii::$app->request->post())){
+                    $existingPrice->save();
+                }
+            }
+            else {
+                if ($model->load(Yii::$app->request->post())) {
+                    if ($model->validate()) {
+                        $model->id_exc = $idExc;
+                        $model->save();
+                    }
+                }
+            }
+        }
+
+        $prices = ExcursionPrices::find()->where(['id_exc' => $idExc])->all();
+
+        return $this->render('prices', [
+            'model' => $model,
+            'prices' => $prices
+        ]);
     }
 
     public function createThumbOfImage($model, $key, $resolution='resolution_main_excursion_photo'){

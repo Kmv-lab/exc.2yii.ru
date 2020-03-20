@@ -231,3 +231,104 @@ div.content-of-elem-adm-info{
 .options-exc div.elem-checkbox img{
     background: #205885;
 }
+
+.new-price-block{
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.new-price-block>*{
+    display: flex;
+    flex-direction: column;
+}
+
+.dates-price-block{
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.dates-price-block>*{
+    display: flex;
+    align-items: baseline;
+}
+
+.new-price-elem>*{
+    margin-left: 10px;
+}
+
+.new-price-days-block{
+    display: flex;
+    flex-direction: column;
+}
+
+.new-price-days-block>*{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.labels-for-checkbox>span{
+    display: block;
+    width: 10%;
+}
+
+.new-price-days-block>.checkboxes>div{
+    width: 10%;
+}
+
+.new-price-days-block>.checkboxes{
+    flex-direction: row;
+}
+
+.new-price-prices-block{
+    display: flex;
+    justify-content: space-around;
+}
+
+.new-price-prices-block>.price-elem{
+    width: 30%;
+}
+
+.new-price-btn{
+    width: 20%;
+    margin-left: 40%;
+}
+
+.new-price-block-small{
+    width: 80%;
+    margin-left: 10%;
+}
+
+.existing-price>div:nth-child(odd){
+    background: #cccc;
+}
+
+.existing-price{
+    margin-top: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
