@@ -8,6 +8,7 @@ use app\modules\adm\models\ExcursionOptions;
 use app\modules\adm\models\ExcursionPhotos;
 use app\modules\adm\models\ExcursionPrices;
 use app\modules\adm\models\Excursions;
+use app\modules\adm\models\ExcursionTimetable;
 use app\modules\adm\models\Guides;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -242,7 +243,50 @@ class ExcursionsController extends Controller
 
         return $this->render('prices', [
             'model' => $model,
-            'prices' => $prices
+            'prices' => $prices,
+            'idExc' => $idExc
+        ]);
+    }
+
+    public function actionDelete_price($idPrice, $idExc){
+        $existingPrice = ExcursionPrices::find()->where(['id' => $idPrice])->one();
+        if(!empty($existingPrice)){
+            $existingPrice->delete();
+        }
+        return $this->redirect(['prices', 'idExc' => $idExc]);
+    }
+
+    public function actionTimetable($idExc){
+
+
+        if(Yii::$app->request->isPost){
+            if(isset(Yii::$app->request->post()['ExcursionTimetable']['id'])){
+                $idTimetable = Yii::$app->request->post()['ExcursionTimetable']['id'];
+                $timetableNewData = ExcursionTimetable::find()->where(['id' => $idTimetable])->one();
+                if ($timetableNewData->load(Yii::$app->request->post())){
+                    $timetableNewData->save();
+                    unset($timetableNewData);
+                }
+            }
+            else{
+                $model = new ExcursionTimetable();
+                if ($model->load(Yii::$app->request->post()) && $model->validate()){
+                    $model->id_exc = $idExc;
+                    $model->save();
+                    unset($model);
+                }
+            }
+        }
+
+        $model = new ExcursionTimetable();
+        $timetable = ExcursionTimetable::find()->where(['id_exc' => $idExc])->all();
+        $ddlIcons = $model->getIcons();
+
+        return $this->render('timetable', [
+            'idExc' => $idExc,
+            'timetables' => $timetable,
+            'newModel' => $model,
+            'ddlIcons' => $ddlIcons
         ]);
     }
 

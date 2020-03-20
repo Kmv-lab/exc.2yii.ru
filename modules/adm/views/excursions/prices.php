@@ -130,6 +130,7 @@ use yii\widgets\ActiveForm;
                     <?=Html::submitButton('<span class="glyphicon glyphicon-floppy-disk"></span> '.'Сохранить', [
                         'class' => 'btn btn-lg btn-primary new-price-btn'
                     ]);?>
+                    <?=Html::a('<span class="glyphicon glyphicon-trash"></span> ', ['delete_price', 'idPrice'=>$price->id, 'idExc' => $idExc], ['class' => 'btn btn-danger deleteItem']);?>
 
                     <?php
                     $form2::end();

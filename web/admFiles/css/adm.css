@@ -310,7 +310,46 @@ div.content-of-elem-adm-info{
     margin-top: 10px;
 }
 
+.timetable-new-block{
+    width: 90%;
+    margin-left: 5%;
+}
 
+.timetable-name-icon-time{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.timetable-name-icon-time>div{
+    display: flex;
+    flex-direction: column;
+}
+
+.timetable-name{
+    width: 50%;
+}
+
+.timetable-icon{
+    width: 25%;
+}
+
+.timetable-time{
+    width: 20%;
+}
+
+.timetable-new-block .new-price-btn{
+    width: 40%;
+    margin-left: 30%;
+}
+
+.timeteble-existing-blocks>div{
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.timeteble-existing-blocks>div:nth-child(even){
+    background: #cccc;
+}
 
 
 
