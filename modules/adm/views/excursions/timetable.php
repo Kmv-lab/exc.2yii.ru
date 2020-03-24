@@ -34,14 +34,16 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 
+    <div class="timetable-content">
+        <label for="wysiwyg1">Содержание</label>
+        <?=$form->field($newModel, 'content',  [
+            'inputOptions' => ['class' => 'ckeditor'],
+            'labelOptions' => ['class' => 'col-sm-3 control-label']
+        ])->textArea(['id' => 'wysiwyg1'])->label(false);?>
+    </div>
+
     <div class="timetable-content-button">
-        <div class="timetable-content">
-            <label for="wysiwyg1">Содержание</label>
-            <?=$form->field($newModel, 'content',  [
-                'inputOptions' => ['class' => 'ckeditor'],
-                'labelOptions' => ['class' => 'col-sm-3 control-label']
-            ])->textArea(['id' => 'wysiwyg1'])->label(false);?>
-        </div>
+
         <?=Html::submitButton('<span class="glyphicon glyphicon-floppy-disk"></span> '.'Сохранить', [
             'class' => 'btn btn-lg btn-primary new-price-btn'
         ]);?>
@@ -88,17 +90,20 @@ use yii\widgets\ActiveForm;
                         </div>
                     </div>
 
-                    <div class="timetable-content-button">
-                        <div class="timetable-content">
-                            <label for="wysiwyg1">Содержание</label>
-                            <?=$form2->field($timetable, 'content',  [
-                                'inputOptions' => ['class' => 'ckeditor'],
-                                'labelOptions' => ['class' => 'col-sm-3 control-label']
-                            ])->textArea(['id' => 'wysiwyg1'])->label(false);?>
-                        </div>
+                    <div class="timetable-content">
+                        <label for="wysiwyg1">Содержание</label>
+                        <?=$form2->field($timetable, 'content',  [
+                            'inputOptions' => ['class' => 'ckeditor'],
+                            'labelOptions' => ['class' => 'col-sm-3 control-label']
+                        ])->textArea(['id' => 'wysiwyg1'])->label(false);?>
+                    </div>
+
+                    <div class="timetable-content-button update-timetable">
+
                         <?=Html::submitButton('<span class="glyphicon glyphicon-floppy-disk"></span> '.'Сохранить', [
                             'class' => 'btn btn-lg btn-primary new-price-btn'
                         ]);?>
+                        <?=Html::a('<span class="glyphicon glyphicon-trash"></span>'.'Удалить', ['delete_timetable', 'idTimetable'=>$timetable->id, 'idExc' => $idExc], ['class' => 'btn btn-danger deleteItem button-delete']);?>
 
                     </div>
                     <?

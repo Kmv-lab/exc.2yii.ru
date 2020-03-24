@@ -351,6 +351,25 @@ div.content-of-elem-adm-info{
     background: #cccc;
 }
 
+.timetable-content-button{
+    position: relative;
+    height: 60px;
+}
+
+.button-delete{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.update-timetable button[type = "submit"]{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin-left: 0;
+}
+
+
 
 
 

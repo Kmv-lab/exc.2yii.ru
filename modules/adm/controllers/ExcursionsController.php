@@ -285,9 +285,17 @@ class ExcursionsController extends Controller
         return $this->render('timetable', [
             'idExc' => $idExc,
             'timetables' => $timetable,
-            'newModel' => $model,
-            'ddlIcons' => $ddlIcons
+            'newModel' => $model
         ]);
+    }
+
+    public function actionDelete_timetable($idTimetable, $idExc){
+        $model = ExcursionTimetable::find()->where(['id' => $idTimetable])->one();
+
+        if(!empty($model))
+            $model->delete();
+
+        return $this->redirect(['timetable', 'idExc' => $idExc]);
     }
 
     public function createThumbOfImage($model, $key, $resolution='resolution_main_excursion_photo'){
