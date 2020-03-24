@@ -483,5 +483,16 @@ $(document).ready(function() {
         })
     }
 
+    $( ".select-type" ).change(function() {
+        let classes =  $(this).attr('class');
+        let str = 'select-type-';
+        let id = classes.indexOf(str);
+        if(id != -1){
+            id = (classes.substr(id + str.length, 1));
+
+            $('.comment-type-'+id).toggle();
+        }
+    });
+
     
 });

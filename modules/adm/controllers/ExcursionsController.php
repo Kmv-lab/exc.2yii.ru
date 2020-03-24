@@ -4,6 +4,7 @@ namespace app\modules\adm\controllers;
 
 use app\commands\ImagickHelper;
 use app\modules\adm\models\ExcursionAdvices;
+use app\modules\adm\models\ExcursionComments;
 use app\modules\adm\models\ExcursionOptions;
 use app\modules\adm\models\ExcursionPhotos;
 use app\modules\adm\models\ExcursionPrices;
@@ -296,6 +297,39 @@ class ExcursionsController extends Controller
             $model->delete();
 
         return $this->redirect(['timetable', 'idExc' => $idExc]);
+    }
+
+    public function actionComments($idExc){
+
+        if(Yii::$app->request->isPost){
+            $newModel = new ExcursionComments();
+            if($newModel->load(Yii::$app->request->post())){
+                $newModel->id_exc = $idExc;
+                if ($newModel->type == 1){
+                    $newModel->content = $this->getIdYouTubeVideo($newModel->content);
+                }
+                $newModel->save();
+            }
+        }
+
+        $newModel = new ExcursionComments();
+
+        $models = ExcursionComments::find()->where(['id_exc' => $idExc])->all();
+
+        return $this->render('comments', [
+            'newModel' => $newModel,
+            'comments' => $models,
+            'idExc' => $idExc
+        ]);
+    }
+
+    public function actionDelete_commment($idComment, $idExc){
+        $model = ExcursionComments::find()->where(['id' => $idComment])->one();
+
+        if(!empty($model))
+            $model->delete();
+
+        return $this->redirect(['comments', 'idExc' => $idExc]);
     }
 
     public function createThumbOfImage($model, $key, $resolution='resolution_main_excursion_photo'){

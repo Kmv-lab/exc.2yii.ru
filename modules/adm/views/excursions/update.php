@@ -16,8 +16,6 @@ $towns = [
     3 => 'Железноводск'
 ];
 
-$sanId = '1';
-
 ?>
 
 <div class="container">
@@ -25,6 +23,7 @@ $sanId = '1';
     <?=Html::a('Изменить фотографии для '.$model->name, Url::to(['excursions/all_photos', 'idExc' => $model->id]), ['class' => 'btn btn-primary']) ?>
     <?=Html::a('Цены для '.$model->name, Url::to(['excursions/prices', 'idExc' => $model->id]), ['class' => 'btn btn-primary']) ?>
     <?=Html::a('Расписание для '.$model->name, Url::to(['excursions/timetable', 'idExc' => $model->id]), ['class' => 'btn btn-primary']) ?>
+    <?=Html::a('Отзывы для '.$model->name, Url::to(['excursions/comments', 'idExc' => $model->id]), ['class' => 'btn btn-primary']) ?>
 
     <div class="new-elem-craete">
 
