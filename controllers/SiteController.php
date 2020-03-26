@@ -5,7 +5,9 @@ namespace app\controllers;
 use app\models\Sitemap;
 use app\modules\adm\models\Rooms;
 use app\modules\adm\models\SanBlocks;
+use app\widgets\ExcursionsWidget;
 use yii\helpers\Url;
+use yii\jui\Widget;
 use yii\web\Controller;
 use Yii;
 use app\models\SansPrev;
@@ -241,6 +243,7 @@ class SiteController extends Controller{
     }
 
     public function actionPrices(){
+
 
         // Получаем массив страниц соответствующий текущему url, отправляем URL и все-все страницы
         $urlArr = explode('/',Yii::$app->request->pathInfo);//массив родительских страниц

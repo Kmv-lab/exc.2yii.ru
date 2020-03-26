@@ -26,7 +26,7 @@ class Excursions extends ActiveRecord
     {
         return [
             [['name','desc','video_src','id_guide','distance',
-                'rating','id_town', 'duration','time_start','time_end'],
+                'rating','id_town', 'is_hit', 'duration','time_start','time_end'],
                 'filter','filter'=>'trim'],
             ['main_photo', 'file',
                 'extensions' => 'jpg, jpeg, png',

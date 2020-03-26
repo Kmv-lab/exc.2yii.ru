@@ -14,6 +14,18 @@ class ExcursionPrices extends ActiveRecord
         return 'prices';
     }
 
+    public static function getDaysArray(){
+        return [
+            1 => 'Понедельник',
+            2 => 'Вторник',
+            3 => 'Среда',
+            4 => 'Четверг',
+            5 => 'Пятиница',
+            6 => 'Суббота',
+            7 => 'Воскресение',
+        ];
+    }
+
     public function rules()
     {
         return [

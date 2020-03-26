@@ -3,7 +3,7 @@ use yii\helpers\Url;
 
 ?>
 
-<ul class="nav-menu">
+<ul class="header-nav__list">
     <?php
         array_unshift($pages, [
             'label' => 'Главная',
@@ -14,8 +14,9 @@ use yii\helpers\Url;
         ]);//Добавление в меню ссылки на главную страницу.
         foreach ($pages AS $page){?>
 
-            <li title="<?=$page['page_link_title']?>" class="menu-elem"><a href="/<?=$page['alias']?>"><?=$page['label']?></a></li>
+            <li title="<?=$page['page_link_title']?>"><a href="/<?=$page['alias']?>"><?=$page['label']?></a></li>
 
         <?}
     ?>
 </ul>
+

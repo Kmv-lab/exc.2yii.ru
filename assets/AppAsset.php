@@ -17,8 +17,8 @@ class AppAsset extends AssetBundle
     public $css = [
         //'css/reset.css',
         //'css/fonts.css',
-        //'css/style.css',
-        'css/ptg.css',
+        'css/style.css',
+        //'css/ptg.css',
         //'libs/sumoselect/sumoselect.min.css',
         'libs/owl/assets/owl.carousel.min.css',
         'libs/owl/assets/owl.theme.default.min.css',
@@ -31,7 +31,9 @@ class AppAsset extends AssetBundle
         'libs/inputmask/jquery.inputmask.min.js',
         'libs/sumoselect/jquery.sumoselect.min.js',
         'libs/fancybox/jquery.fancybox.min.js',
-        'js/script.js',
+        //'js/script.js',
+        'js/vendors.min.js',
+        'js/scripts.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

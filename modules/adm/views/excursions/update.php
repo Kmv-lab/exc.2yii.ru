@@ -128,6 +128,8 @@ $towns = [
         <!--Изменить на звёздочки, возможно, а может и нет-->
         <?=$form->field($model, 'rating')->label('Рейтинг')->textInput()?>
 
+        <?=$form->field($model, 'is_hit')->checkbox([], false)->label('Метка Хита') ?>
+
         <!--Выбор города-->
         <?=$form->field($model, 'id_town')->label('Выбор города')->dropDownList($towns, ['prompt' => 'Город не выбран!']);?>
 

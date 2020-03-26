@@ -3,63 +3,61 @@
 use yii\helpers\Url;
 use app\widgets\Menu;
 ?>
-
-
-<div class="container-fluid">
-    <div class="header center-content row header-color">
-        <div class="col-xs-2 hidden-lg">
-            <img src="<?=Yii::$app->params['path_to_official_images']?>menu-open.png" id="showMenu" class="menu-open-img">
-        </div>
-        <div class="col-xs-10 col-lg-6 align-middle title-name-block center-content">
-            <span class="title-name">Санатории Пятигорска</span>
-        </div>
-        <div class="visible-lg-not-important row col-lg-6 nav-container" id="mainMenu">
-            <div style="display: flex; height: 100%; flex-direction: column; justify-content: space-evenly;">
-                <!--<ul class="nav-menu">
-                    <?php
-/*                    $arrMenu = [
-                        [
-                            'name' => 'Главная',
-                            'url' => '/'
-                        ],
-                        [
-                            'name' => 'Цены',
-                            'url' => '/prices'
-                        ],
-                        [
-                            'name' => 'Что-то',
-                            'url' => '/'
-                        ]
-                    ];
-                    foreach ($arrMenu as $elem){*/?>
-                        <li class="menu-elem"><a href="<?/*=$elem['url']*/?>"><?/*=$elem['name']*/?></a></li>
-                    <?/*}
-                    */?>
-                </ul>-->
-                <? echo Menu::widget(); ?>
-                <div class="phone-block center-content hidden-lg">
-                    <button class="btn btn-success call-back-button">Заказать звонок</button>
+<noscript>
+    <p class="intro">
+        Вам нужно включить JavaScript в своем браузере, чтобы  отображение этой страницы было корректн	<!--You need to enable JavaScript in your browser to display this page correctly.-->
+    </p>
+</noscript>
+<header class="header">
+    <div class="header__main">
+        <div class="container">
+            <div class="header__wrap">
+                <div class="header__side">
+                    <a href="/" class="header-logo">
+                        <img src="<?=Yii::$app->params['path_to_official_images']?>logo.png" alt="Экскурсии из Ессентуков">
+                    </a>
+                    <div class="header-slogan">
+                        <?=Yii::$app->params['slogan_main']?>
+                    </div>
                 </div>
+                <div class="header__side header-contacts">
+                    <div class="header-contact">
+                        <div class="header-contact__title">Звонок бесплатный:</div>
+                        <a href="tel:<?=preg_replace('/[^0-9\+]/', '', Yii::$app->params['phone_free'])?>" class="header-contact__tel"><?=Yii::$app->params['phone_free']?></a>
+                    </div>
+                    <div class="header-contact">
+                        <div class="header-contact__title">Номер для WhatsApp:</div>
+                        <a href="whatsapp://send?phone=<?=preg_replace('/[^0-9\+]/', '', Yii::$app->params['phone_whatsapp'])?>" class="header-contact__tel"><?=Yii::$app->params['phone_whatsapp']?></a>
+                    </div>
+                </div>
+                <button class="btn mob-menu-btn js-mob-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
     </div>
+    <nav class="header-nav" id="js-mob-menu">
+        <button class="btn mob-menu__close js-mob-menu-btn"></button>
+        <div class="container">
+            <? echo Menu::widget(); ?>
+            <div class="header-contact">
+                <div class="header-contact__title">Звонок бесплатный:</div>
+                <a href="tel:<?=preg_replace('/[^0-9\+]/', '', Yii::$app->params['phone_free'])?>" class="header-contact__tel"><?=Yii::$app->params['phone_free']?></a>
+            </div>
+            <div class="header-contact">
+                <div class="header-contact__title">Номер для WhatsApp:</div>
+                <a href="whatsapp://send?phone=<?=preg_replace('/[^0-9\+]/', '', Yii::$app->params['phone_whatsapp'])?>" class="header-contact__tel"><?=Yii::$app->params['phone_whatsapp']?></a>
+            </div>
+        </div>
+    </nav>
+</header>
 
-    <?php
-
-        //vd(Yii::$app->params);
-
-    ?>
-
-    <div class="phone-block header-color center-content">
-        <span class="phone"><a href="tel:+1234567890">8 (800) 009-08-02</a></span>
-        <button class="btn btn-success call-back-button">Заказать звонок</button>
-    </div>
 
 
 
-
-
-    <!--<div class="wrapper-for-mobile">
+   <!--<div class="wrapper-for-mobile">
         <div class="header">
             <div class="container">
                 <div class="offices">

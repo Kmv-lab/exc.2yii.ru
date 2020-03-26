@@ -191,6 +191,8 @@ $(document).ready(function(){
             items:1,
             margin:10,
         });
+        
+
     }
     /*
     $('.services-slider').owlCarousel({

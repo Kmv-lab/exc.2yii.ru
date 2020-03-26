@@ -15,35 +15,29 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-<?php $this->beginBody() ?>
-<?= $this->render('_Header')?>
-    <div class="breadcrumbs-wrapper">
-        <div class="container">
-            <?=Breadcrumbs::widget([
-                'links' => isset(Yii::$app->params['breadcrumbs']) ? Yii::$app->params['breadcrumbs'] : [],
-                'tag'=>'div',
-                'itemTemplate'=>'<div>{link}</div>',
-                'activeItemTemplate'=>'<div>{link}</div>']) ?>
+    <?php $this->beginBody() ?>
+    <div class="wrapper">
+    <?= $this->render('_Header')?>
+        <div class="breadcrumbs-wrapper">
+            <div class="container">
+                <?=Breadcrumbs::widget([
+                    'links' => isset(Yii::$app->params['breadcrumbs']) ? Yii::$app->params['breadcrumbs'] : [],
+                    'tag'=>'div',
+                    'itemTemplate'=>'<div>{link}</div>',
+                    'activeItemTemplate'=>'<div>{link}</div>']) ?>
             </div>
         </div>
-    </div>
-    <div class="page page-full">
-        <div class="container">
-            <?php
-            if(!empty(Yii::$app->params['photo'])){ ?>
-                <div class="top-image">
-                    <img src="<?=Yii::$app->params['photo']?>" />
-                </div>
-            <?php
-            }
-            ?>
-            <h1><?=Yii::$app->params['seo_h1']?><span><?=Yii::$app->params['seo_h1_span']?></span></h1>
-            <div class="page-content">
-                <?= $content ?>
-            </div>
+        <?php
+        if(!empty(Yii::$app->params['photo'])){ ?>
+        <div class="top-image">
+            <img src="<?=Yii::$app->params['photo']?>" />
         </div>
+        <?}?>
+        <h1><?=Yii::$app->params['seo_h1']?><span><?=Yii::$app->params['seo_h1_span']?></span></h1>
+        <?= $content ?>
+
+    <?= $this->render('_Footer') ?>
     </div>
-<?= $this->render('_Footer') ?>
 <?php $this->endBody() ?>
 </body>
 </html>
