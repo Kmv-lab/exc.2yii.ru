@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Sitemap;
+use app\modules\adm\models\Main_page;
 use app\modules\adm\models\Rooms;
 use app\modules\adm\models\SanBlocks;
 use app\widgets\ExcursionsWidget;
@@ -215,7 +216,16 @@ class SiteController extends Controller{
 
     public function actionIndex(){
 
-        return $this->render('dnd');
+        $blocks = Main_page::find()->orderBy('priority')->all();
+
+        foreach ($blocks as $key=>$block){
+            $blocks[$key]['content'] = helpers::checkForWidgets($block->content);
+            //vd($blocks[$key]['content']);
+        }
+
+        return $this->render('dnd', [
+            'blocks' => $blocks,
+        ]);
     }
 
     public function actionSanatorium($alias)

@@ -36,7 +36,8 @@ class Main_page extends ActiveRecord{
             ];
         }
         return [
-            [['content', 'type'], 'required']
+            [['name', 'type', 'priority'], 'required'],
+            ['content', 'safe']
         ];
     }
 

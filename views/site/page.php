@@ -1,1 +1,7 @@
-<?= $page['page_content']?>
+<?
+
+//vd($page['page_content']);
+
+echo $page['page_content']
+
+?>

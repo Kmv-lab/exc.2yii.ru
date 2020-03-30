@@ -13,21 +13,37 @@ class Test_new_strController extends Controller{
     public $model;
 
     public function actionIndex(){
-        $this->model = Main_page::find()->all();
 
-        $ids = array_column($this->model, 'id');
+        $emptyModel = new Main_page();
 
-        if (Yii::$app->request->isPost){
+        if((Yii::$app->request->isPost) && !isset(Yii::$app->request->post()['Main_page']['id'])){
+            //vd(Yii::$app->request->post());
+            if ($emptyModel->load(Yii::$app->request->post())){
+                //vd(Yii::$app->request->post());
+                $emptyModel->save();
 
-            $result = $this->processingData($ids);
+                unset($emptyModel);
+            }
+        }
+        else if((Yii::$app->request->isPost) && isset(Yii::$app->request->post()['Main_page']['id'])){
+            $model = Main_page::find()->where(['id' => Yii::$app->request->post()['Main_page']['id']])->one();
+            if($model->load(Yii::$app->request->post())){
+                $model->save();
+            }
         }
 
-        $result = isset($result) ? $result : false;
+        $this->model = Main_page::find()->orderBy('priority')->all();
+        $emptyModel = new Main_page();
 
-        if(Yii::$app->request->isAjax){
-            return $this->renderAjax('index', [ "model" => $this->model]);
-        }
-        return $this->render('index', [ "model" => $this->model]);
+        return $this->render('index', [ "model" => $this->model, 'emptyModel' => $emptyModel]);
+    }
+
+    public function actionDelete($idBlock){
+        $model = Main_page::find()->where(['id' => $idBlock])->one();
+        if (!empty($model))
+            $model->delete();
+
+        return $this->redirect(['index']);
     }
 
     private function processingData($ids){

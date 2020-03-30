@@ -18,6 +18,8 @@ class ExcursionsWidget extends Widget
 
     public $isAjax = null;
 
+    public $onlyElem = null;
+
     public $lastingExc = 1;
 
     public function run()
@@ -74,9 +76,7 @@ class ExcursionsWidget extends Widget
             }
         }
 
-        //vd($model);
-
-        if ($this->isAjax){
+        if ($this->onlyElem){
             $result ='';
             $this->lastingExc++;
             foreach ($model as $exc){

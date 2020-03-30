@@ -18,24 +18,21 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
     <div class="wrapper">
     <?= $this->render('_Header')?>
-        <div class="breadcrumbs-wrapper">
-            <div class="container">
-                <?=Breadcrumbs::widget([
-                    'links' => isset(Yii::$app->params['breadcrumbs']) ? Yii::$app->params['breadcrumbs'] : [],
-                    'tag'=>'div',
-                    'itemTemplate'=>'<div>{link}</div>',
-                    'activeItemTemplate'=>'<div>{link}</div>']) ?>
+        <main class="main">
+            <div class="page clearfix page_grey">
+                <nav class="breadcrumbs">
+                    <div class="container">
+                        <?=Breadcrumbs::widget([
+                            'links' => isset(Yii::$app->params['breadcrumbs']) ? Yii::$app->params['breadcrumbs'] : [],
+                            'tag'=>'ul vocab="https://schema.org/" typeof="BreadcrumbList"',
+                            'itemTemplate'=>'<li property="itemListElement" typeof="ListItem">{link}</li>',
+                            'activeItemTemplate'=>'<li property="itemListElement" typeof="ListItem"><span property="name">{link}</span></li>'
+                        ]);?>
+                    </div>
+                </nav>
+                <?= $content ?>
             </div>
-        </div>
-        <?php
-        if(!empty(Yii::$app->params['photo'])){ ?>
-        <div class="top-image">
-            <img src="<?=Yii::$app->params['photo']?>" />
-        </div>
-        <?}?>
-        <h1><?=Yii::$app->params['seo_h1']?><span><?=Yii::$app->params['seo_h1_span']?></span></h1>
-        <?= $content ?>
-
+        </main>
     <?= $this->render('_Footer') ?>
     </div>
 <?php $this->endBody() ?>

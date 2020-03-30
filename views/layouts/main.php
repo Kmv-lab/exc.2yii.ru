@@ -22,7 +22,6 @@ AppAsset::register($this);
 
 <?php $this->beginBody() ?>
 <?= $this->render('_Header')?>
-
 <?
 /*echo Slider::widget(['id'=>1]);
 echo Block::widget(['id'=>15]);

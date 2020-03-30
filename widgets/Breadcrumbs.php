@@ -164,9 +164,13 @@ class Breadcrumbs extends Widget
             $template = $link['template'];
         }
         if (isset($link['url'])) {
-            $options = $link;
+            $options = array_merge($link, [
+                    "property"=>"item",
+                    "typeof"=>"WebPage"
+                ]);
+            //vd($label);
             unset($options['template'], $options['label'], $options['url']);
-            $link = Html::a($label, $link['url'], $options);
+            $link = Html::a('<span property="name">'.$label.'</span>', $link['url'], $options);
         } else {
             $link = $label;
         }

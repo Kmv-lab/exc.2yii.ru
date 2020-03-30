@@ -10,7 +10,7 @@ use app\widgets\Contact;
             <div class="footer-main__wrap">
                 <div class="footer-main__col">
                     <a href="/" class="footer-logo">
-                        <img src="img/pic/logo.png" alt="Экскурсии из Ессентуков">
+                        <img src="<?=Yii::$app->params['path_to_official_images']?>logo.png" alt="Экскурсии из Ессентуков">
                     </a>
                     <div>
                         <div class="footer__title">Мы в соц. сетях:</div>

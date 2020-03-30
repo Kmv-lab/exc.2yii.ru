@@ -22,6 +22,17 @@
     padding: 20px;
 }
 
+.name-type-prioryty{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.name-type-prioryty div{
+    width: 30%;
+}
+
 div.form-add-new-block{
     background: #cccc;
 }
