@@ -20,8 +20,8 @@ class ExcursionOptions extends ActiveRecord
         return 'exc_options';
     }
 
-    public function getAdvices(){
-        return [
+    public function getOptions($idOpt = null){
+        $options = [
             'dinner' => [
                 'id' => 1,
                 'name' => 'Обед в кафе',
@@ -38,19 +38,25 @@ class ExcursionOptions extends ActiveRecord
                 'file' => 'art-museum.png'
             ]
         ];
+
+        if (!isset($idOpt)){
+            return $options;
+        }
+        return $options[$idOpt];
+
     }
 
-    public function getAdvicesName($id){
-        $advices = $this->getAdvices();
+    public function getOptionsName($id){
+        $advices = $this->getOptions();
         return $advices[$id]['name'];
     }
 
-    public function getAdvicesFile($id){
-        $advices = $this->getAdvices();
+    public function getOptionsFile($id){
+        $advices = $this->getOptions();
         return $advices[$id]['file'];
     }
 
-    public function getAdvicesIds(){
+    public function getOptionsIds(){
         return get_object_vars($this);
     }
 

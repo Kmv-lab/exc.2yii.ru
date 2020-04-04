@@ -5,7 +5,14 @@ namespace app\controllers;
 
 
 use app\commands\PagesHelper;
+use app\modules\adm\models\ExcursionAdvices;
+use app\modules\adm\models\ExcursionComments;
+use app\modules\adm\models\ExcursionOptions;
+use app\modules\adm\models\ExcursionPhotos;
+use app\modules\adm\models\ExcursionPrices;
 use app\modules\adm\models\Excursions;
+use app\modules\adm\models\ExcursionTimetable;
+use app\modules\adm\models\Guides;
 use app\modules\adm\models\Page;
 use app\widgets\ExcursionsWidget;
 use Yii;
@@ -52,6 +59,51 @@ class ExcursionsController extends Controller
 
         return $result;
 
+    }
+
+    public function actionExcursion($alias){
+        $excursion = Excursions::find()->where(['alias' => $alias])->one();
+
+        $prices = ExcursionPrices::find()->where(['id_exc' => $excursion->id])->all();
+        if (!empty($prices)){
+            if (count($prices) > 1){
+                $timeNow = strtotime('now');
+                foreach ($prices as $price){
+                    if((strtotime($price->start) < $timeNow) && ($timeNow < strtotime($price->end))){
+                        $priceExc = $price;
+                    }
+                }
+            }
+            elseif (count($prices) == 1){
+                $priceExc = $prices[0];
+            }
+        }
+        else{
+            $priceExc = 'Пока не указано';
+        }
+
+        $photos = ExcursionPhotos::find()->where(['id_exc' => $excursion->id])->all();
+
+        $timetable = ExcursionTimetable::find()->where(['id_exc' => $excursion->id])->orderBy('time')->all();
+
+        $guide = Guides::find()->where(['id' => $excursion->id_guide])->one();
+
+        $options = ExcursionOptions::find()->where(['id_exc' => $excursion->id])->all();
+
+        $advices = ExcursionAdvices::find()->where(['id_exc' => $excursion->id])->all();
+
+        $comments = ExcursionComments::find()->where(['id_exc' => $excursion->id])->all();
+
+        return $this->render('excursion', [
+            'excursion' => $excursion,
+            'price' => $priceExc,
+            'photos' => $photos,
+            'timetable' => $timetable,
+            'guide' => $guide,
+            'options' => $options,
+            'advices' => $advices,
+            'comments' => $comments
+        ]);
     }
 
 }

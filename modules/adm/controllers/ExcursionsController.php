@@ -280,7 +280,7 @@ class ExcursionsController extends Controller
         }
 
         $model = new ExcursionTimetable();
-        $timetable = ExcursionTimetable::find()->where(['id_exc' => $idExc])->all();
+        $timetable = ExcursionTimetable::find()->where(['id_exc' => $idExc])->orderBy('time')->all();
         $ddlIcons = $model->getIcons();
 
         return $this->render('timetable', [

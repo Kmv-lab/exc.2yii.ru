@@ -19,8 +19,8 @@ class ExcursionAdvices extends ActiveRecord
         return 'exc_advices';
     }
 
-    public function getAdvices(){
-        return [
+    public function getAdvices($idAdv=null){
+        $arrayAdv = [
             'umbrella' => [
                 'id' => 1,
                 'name' => 'Ручной зонтик',
@@ -32,6 +32,12 @@ class ExcursionAdvices extends ActiveRecord
                 'file' => 'boots.png'
             ]
         ];
+
+        if (!$idAdv){
+            return $arrayAdv;
+        }
+
+        return $arrayAdv[$idAdv];
     }
 
     public function getAdvicesName($id){

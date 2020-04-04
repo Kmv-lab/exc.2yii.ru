@@ -1,6 +1,10 @@
 <?php
 
 use app\modules\adm\models\Excursions;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
+$urlTo = Url::to( 'excursion/'.$exc['alias'], true);
 
 ?>
 
@@ -25,6 +29,6 @@ use app\modules\adm\models\Excursions;
     </div>
     <div class="exc-item__footer">
         <div class="exc-item__price">от <b><?=$exc['prise']?></b>&nbsp;р.</div>
-        <a href="#" class="btn btn_orange-brd exc-item__btn">ПОДРОБНЕЕ</a>
+        <?=Html::a('ПОДРОБНЕЕ', $urlTo, ['class' => 'btn btn_orange-brd exc-item__btn']) ?>
     </div>
 </div>

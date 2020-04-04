@@ -32,8 +32,8 @@ class ExcursionTimetable extends ActiveRecord
         return $_SERVER['DOCUMENT_ROOT'].'/content/icons/';
     }
 
-    public function getIcons(){
-        return [
+    public function getIcons($id=null){
+        $arrayIcons = [
             1 => [
                 'file' => 'road-bus.png',
                 'name' => 'Автобус'
@@ -47,6 +47,12 @@ class ExcursionTimetable extends ActiveRecord
                 'name' => 'Карты'
             ]
         ];
+
+        if (!$id){
+            return $arrayIcons;
+        }
+
+        return $arrayIcons[$id]['file'];
     }
 
 }

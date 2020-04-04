@@ -16,6 +16,18 @@ class Excursions extends ActiveRecord
         return Yii::$app->params['full_path_to_excursion_photo'];
     }
 
+    public static function getTowns($idTown = null){
+        $townArray = [
+            1 => 'Ессентуки',
+            2 => 'Пятигорск',
+            3 => 'Железноводск'
+        ];
+        if ($idTown && isset($townArray[$idTown])){
+            return $townArray[$idTown];
+        }
+
+        return $townArray;
+    }
 
     public static function DIRview()
     {
@@ -25,9 +37,9 @@ class Excursions extends ActiveRecord
     public function rules()
     {
         return [
-            [['name','desc','video_src','id_guide','distance',
-                'rating','id_town', 'is_hit', 'duration','time_start','time_end'],
+            [['desc','video_src','distance','rating', 'is_hit'],
                 'filter','filter'=>'trim'],
+            [['name','alias','id_guide','id_town','duration','time_start','time_end'], 'required'],
             ['main_photo', 'file',
                 'extensions' => 'jpg, jpeg, png',
                 'maxFiles' => 1,

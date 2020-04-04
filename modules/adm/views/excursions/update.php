@@ -36,7 +36,9 @@ $towns = [
         ]);
         ?>
 
-        <?=$form->field($model, 'name')->label('Название')->textInput();?>
+        <?=$form->field($model, 'name')->label('Название')->input( 'text', ['class' => 'form-control translit_source']);?>
+
+        <?=$form->field($model, 'alias')->label('Путь до страницы')->input('text', ['class' => 'form-control translit_dest']);?>
 
         <span style="font-weight: bold">Описание</span>
         <?=$form->field($model, 'desc',  [
@@ -131,7 +133,7 @@ $towns = [
         <?=$form->field($model, 'is_hit')->checkbox([], false)->label('Метка Хита') ?>
 
         <!--Выбор города-->
-        <?=$form->field($model, 'id_town')->label('Выбор города')->dropDownList($towns, ['prompt' => 'Город не выбран!']);?>
+        <?=$form->field($model, 'id_town')->label('Выбор города')->dropDownList($model->getTowns(), ['prompt' => 'Город не выбран!']);?>
 
         <?=$form->field($model, 'duration')->label('Продолжительность')->textInput()?>
 
@@ -228,7 +230,7 @@ $towns = [
         <div class="checkbox-block options-exc">
 
             <?php
-            $optionsArray = $optionsModel->getAdvicesIds();
+            $optionsArray = $optionsModel->getOptionsIds();
 
             foreach ($optionsArray as $key=>$option){
                 ?>
@@ -238,9 +240,9 @@ $towns = [
                     'template' =>   '<div class="elem-checkbox">{input}'.
                         '<img src="'.
                         ExcursionAdvices::DIR().
-                        $optionsModel->getAdvicesFile($key).
+                        $optionsModel->getOptionsFile($key).
                         '"><span>'.
-                        $optionsModel->getAdvicesName($key).
+                        $optionsModel->getOptionsName($key).
                         '</span></div>',
                 ];
                 ?>

@@ -8,10 +8,27 @@ use yii\db\ActiveRecord;
 
 class ExcursionPrices extends ActiveRecord
 {
-
     public static function tableName()
     {
         return 'prices';
+    }
+
+    public static function getDayArray($idDay = null){
+        $days = [
+            1 => 'Пн',
+            2 => 'Вт',
+            3 => 'Ср',
+            4 => 'Чт',
+            5 => 'Пт',
+            6 => 'Сб',
+            7 => 'Вс',
+        ];
+
+        if ($idDay && isset($days[$idDay])){
+            return $days[$idDay];
+        }
+
+        return $days;
     }
 
     public static function getDaysArray(){
