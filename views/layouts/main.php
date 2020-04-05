@@ -19,20 +19,23 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-
 <?php $this->beginBody() ?>
-<?= $this->render('_Header')?>
-<?
-/*echo Slider::widget(['id'=>1]);
-echo Block::widget(['id'=>15]);
-echo Block::widget(['id'=>16]);
-echo Block::widget(['id'=>17]);
-echo Block::widget(['id'=>18]);*/
-?>
+<div class="wrapper">
 
-<?=$content?>
+    <?= $this->render('_Header')?>
+    <?
+    /*echo Slider::widget(['id'=>1]);
+    echo Block::widget(['id'=>15]);
+    echo Block::widget(['id'=>16]);
+    echo Block::widget(['id'=>17]);
+    echo Block::widget(['id'=>18]);*/
+    ?>
 
-<?= $this->render('_Footer') ?>
+    <?=$content?>
+
+    <?= $this->render('_Footer') ?>
+
+</div>
 <?php $this->endBody() ?>
 </body>
 </html>

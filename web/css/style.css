@@ -38,6 +38,10 @@ html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}.slick-slide i
     background: #ccc;
 }
 
+.SEO-h1{
+    text-align: center;
+}
+
 @media only screen and (max-width: 1023px){
     .reviews-page-item__row {
         flex-direction: column;

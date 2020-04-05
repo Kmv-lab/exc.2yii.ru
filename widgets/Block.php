@@ -13,6 +13,8 @@ class Block extends Widget
     public function run()
     {
         $block = BlockModel::findOne($this->id);
+        if(empty($block))
+            return '';
         $block->block_content = helpers::search_url($block->block_content);
         return $block->block_content;
     }

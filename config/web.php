@@ -97,6 +97,7 @@ $config = [
                 'ekskursii' => 'excursions/excursions',
                 'ekskursovodyi' => 'staff/guides',
                 'voditeli' => 'staff/drivers',
+                'request/manager_form' => 'request/manager_form',
                 'excursions/more_exc' => 'excursions/more_exc',
                 'excursion/<alias:\S+>' => 'excursions/excursion',
                 'sanatorium/<alias:\S+>' => 'site/sanatorium',

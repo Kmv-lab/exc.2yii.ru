@@ -15,7 +15,7 @@ $urlTo = Url::to( 'excursion/'.$exc['alias'], true);
     ?>
     <div class="exc-item__hit">ХИТ</div>
     <?}?>
-    <a href="#" class="exc-item__pic">
+    <a href="<?=$urlTo?>" class="exc-item__pic">
         <img src="<?=Excursions::DIRview().Yii::$app->params['resolution_main_excursion_photo'].'/'.$exc['main_photo']?>" alt="">
         <div class="exc-item__date">Ближайшее: <b><?=$exc['next_day']?> в <?=$exc['time_start']?></b></div>
     </a>
@@ -24,7 +24,7 @@ $urlTo = Url::to( 'excursion/'.$exc['alias'], true);
             <div class="exc-item__bar-item exc-item__bar-item_rait">Рейтинг: <span><?=$exc['rating']?> / 10</span></div>
             <div class="exc-item__bar-item exc-item__bar-item_time">Длительность: <span><?=$exc['duration']?></span></div>
         </div>
-        <a href="#" class="exc-item__name"><?=$exc['name']?></a>
+        <?=Html::a($exc['name'], $urlTo, ['class' => 'exc-item__name']) ?>
         <span class="exc-item__txt"><?=$exc['desc']?></span>
     </div>
     <div class="exc-item__footer">

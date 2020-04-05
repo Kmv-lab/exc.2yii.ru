@@ -13,8 +13,6 @@ class ContactForm extends Model
 {
     public $name;
     public $phone;
-    public $office;
-    public $form_name;
 
     /**
      * @return array the validation rules.
@@ -22,12 +20,10 @@ class ContactForm extends Model
     public function rules()
     {
         return [
-            [['name', 'phone', 'form_name'],'filter','filter'=>'trim'],
+            [['name', 'phone'],'filter','filter'=>'trim'],
             ['phone', 'required', 'message'=>'Введите ваш номер'],
-            ['phone', 'match', 'pattern' => '/^\+7\s\([0-9]{3}\)\s[0-9]{3}\-[0-9]{2}\-[0-9]{2}$/', 'message' => 'Не правильный формат' ],
+            ['phone', 'match', 'pattern' => '/^\+7\(([0-9]{3})\)([0-9]{3})\-([0-9]{2})\-([0-9]{2})$/', 'message' => 'Не правильный формат' ],
             ['name', 'required', 'message'=>'Представьтесь'],
-            ['office','integer', 'max'=> 100, 'min'=>0],
-            ['form_name','string', 'max'=> 100, 'min'=>1],
         ];
     }
 
@@ -38,7 +34,7 @@ class ContactForm extends Model
         return [
             'name' => 'Ваше имя:',
             'phone'=> 'Ваш номер телефона:',
-            'office'=>'Выберите офис:', ];
+            ];
     }
 
     public function send()

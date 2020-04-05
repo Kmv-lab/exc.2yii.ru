@@ -27,7 +27,7 @@ class AppAsset extends AssetBundle
         //'css/normalize.css',
     ];
     public $js = [
-        'libs/owl/owl.carousel.min.js',
+        //'libs/owl/owl.carousel.min.js',
         'libs/inputmask/jquery.inputmask.min.js',
         'libs/sumoselect/jquery.sumoselect.min.js',
         'libs/fancybox/jquery.fancybox.min.js',

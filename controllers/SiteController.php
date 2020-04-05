@@ -254,7 +254,6 @@ class SiteController extends Controller{
 
     public function actionPrices(){
 
-
         // Получаем массив страниц соответствующий текущему url, отправляем URL и все-все страницы
         $urlArr = explode('/',Yii::$app->request->pathInfo);//массив родительских страниц
 
@@ -284,6 +283,12 @@ class SiteController extends Controller{
         }
 
         return $this->render('prices', ['page' => $currentPage]);
+    }
+
+    public function actionAjaxForm(){
+        if (Yii::$app->request->isAjax){
+            vd(Yii::$app->request->post());
+        }
     }
 
     public function actionSitemap(){
