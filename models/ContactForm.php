@@ -13,6 +13,7 @@ class ContactForm extends Model
 {
     public $name;
     public $phone;
+    public $page;
 
     /**
      * @return array the validation rules.
@@ -24,6 +25,7 @@ class ContactForm extends Model
             ['phone', 'required', 'message'=>'Введите ваш номер'],
             ['phone', 'match', 'pattern' => '/^\+7\(([0-9]{3})\)([0-9]{3})\-([0-9]{2})\-([0-9]{2})$/', 'message' => 'Не правильный формат' ],
             ['name', 'required', 'message'=>'Представьтесь'],
+            ['page', 'required']
         ];
     }
 

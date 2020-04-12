@@ -3,6 +3,7 @@
 use app\modules\adm\models\Block;
 use app\widgets\Breadcrumbs;
 use app\widgets\ExcursionsWidget;
+use app\widgets\FormCallManager;
 use app\widgets\Galleries;
 
 ?>
@@ -126,19 +127,9 @@ use app\widgets\Galleries;
 
 
         <section class="callback-sec callback-sec_blue">
-            <div class="container">
-                <h2 class="sec-subtitle callback-sec__title">Не знаете, какая экскурсия подойдет именно вам?</h2>
-
-                <p class="sec-txt callback-sec__txt">Мы бесплатно подберем тур согласно вашим индивидуальным предпочтениям и состоянию здоровья</p>
-
-                <form action="#" class="callback-form" method="post">
-                    <div class="callback-form__row">
-                        <input class="input callback-form__input input-name" id="SSSSS" name="name" placeholder="Как к вам обращаться?" type="text" />
-                        <input class="input callback-form__input input-phone" name="tel" placeholder="Ваш телефон" required="" type="tel" />
-                        <button class="btn btn_orange callback-form__submit" type="submit">Жду звонка</button>
-                    </div>
-                    <small class="callback-form__sub">*нажимая на кнопку вы даете согласие на обработку своих персональных данных</small></form>
-            </div>
+            <?=FormCallManager::widget([
+                    'h2Text' => Yii::$app->params['form_call_manager_on_excursions']
+            ])?>
         </section>
 
         <section class="docs-sec">

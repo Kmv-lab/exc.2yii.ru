@@ -302,19 +302,33 @@ class ExcursionsController extends Controller
     public function actionComments($idExc){
 
         if(Yii::$app->request->isPost){
-            $newModel = new ExcursionComments();
-            if($newModel->load(Yii::$app->request->post())){
-                $newModel->id_exc = $idExc;
-                if ($newModel->type == 1){
-                    $newModel->content = $this->getIdYouTubeVideo($newModel->content);
+
+            if (isset(Yii::$app->request->post()['ExcursionComments']['id'])){
+                $model = ExcursionComments::find()->where(['id' => Yii::$app->request->post()['ExcursionComments']['id']])->one();
+                if ($model->load(Yii::$app->request->post())){
+                    $model->content = $this->getIdYouTubeVideo($model->content);
+                    $model->save();
                 }
-                $newModel->save();
+
+            }
+            else{
+                $newModel = new ExcursionComments();
+                if($newModel->load(Yii::$app->request->post())){
+                    $newModel->id_exc = $idExc;
+                    if ($newModel->type == 1){
+                        $newModel->content = $this->getIdYouTubeVideo($newModel->content);
+                    }
+
+                    $newModel->save();
+                }
             }
         }
 
         $newModel = new ExcursionComments();
 
         $models = ExcursionComments::find()->where(['id_exc' => $idExc])->all();
+
+        unset($_POST);
 
         return $this->render('comments', [
             'newModel' => $newModel,

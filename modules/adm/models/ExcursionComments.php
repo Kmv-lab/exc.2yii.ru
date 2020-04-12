@@ -24,7 +24,7 @@ class ExcursionComments extends ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'content'], 'required'],
+            [['type', 'content', 'date'], 'required'],
             ['rating', 'number'],
             [['name', 'date'], 'safe']
         ];

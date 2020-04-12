@@ -58,7 +58,7 @@ $types = $newModel->getTypes();
 <div class="timeteble-existing-blocks">
     <?
     if(!empty($comments)){?>
-        <h1>Существующие остановки</h1>
+        <h1>Существующие Отзывы</h1>
         <?
         $i = 1;
         foreach ($comments as $comment){?>
@@ -78,7 +78,9 @@ $types = $newModel->getTypes();
 
 
                 <div class="text-comment">
-
+                    <div class="timetable-time">
+                        <?=$form->field($comment, 'date')->label('Дата отзыва')->input('date');?>
+                    </div>
                     <?php
                     if ($comment->type == 1){?>
                         <div class="timetable-name-icon-time comment-type-<?=$i?>" style="display: none">
@@ -91,9 +93,7 @@ $types = $newModel->getTypes();
                         <div class="timetable-name">
                             <?=$form->field($comment, 'name')->label('Имя')->textInput();?>
                         </div>
-                        <div class="timetable-time">
-                            <?=$form->field($comment, 'date')->label('Дата отзыва')->input('date');?>
-                        </div>
+
                         <div class="comment-rating">
                             <?=$form->field($comment, 'rating')->label('Отценка')->textInput(['type' => 'number', 'max' => 5, 'min' => 0, 'step' => 'any']);?>
                         </div>

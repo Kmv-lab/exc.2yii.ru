@@ -1,4 +1,11 @@
-<main class="main"><div class="page clearfix page_grey">
+<?php
+
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
+
+?>
+<main class="main" xmlns="http://www.w3.org/1999/html"><div class="page clearfix page_grey">
         <nav class="breadcrumbs">
             <div class="container">
                 <ul>
@@ -23,6 +30,7 @@
                                 $days[$y++] = $price->fri;
                                 $days[$y++] = $price->sat;
                                 $days[$y++] = $price->sun;
+
                                 $daysOfWeek=[];
                                 foreach ($days as $key=>$day){
                                     if ($day){
@@ -119,15 +127,6 @@
                         <div class="excursion-gallery__bar">
                             <a href="#" class="btn btn_orange excursion-gallery__more">ЕЩЕ <?=$count-8?> ФОТОГРАФИЙ</a>
                             <?}?>
-
-                        <!--<a href="img/pic/gallery.png"  style="background-image: url(img/pic/gallery.png);" class="js-gallery excursion-gallery__pic"></a>
-                        <a href="img/pic/gallery.png"  style="background-image: url(img/pic/gallery.png);" class="js-gallery excursion-gallery__pic"></a>
-                        <a href="img/pic/gallery.png"  style="background-image: url(img/pic/gallery.png);" class="js-gallery excursion-gallery__pic"></a>
-                        <a href="img/pic/gallery.png"  style="background-image: url(img/pic/gallery.png);" class="js-gallery excursion-gallery__pic"></a>
-                        <a href="img/pic/gallery.png"  style="background-image: url(img/pic/gallery.png);" class="js-gallery excursion-gallery__pic"></a>
-                        <a href="img/pic/gallery.png"  style="background-image: url(img/pic/gallery.png);" class="js-gallery excursion-gallery__pic"></a>
-                        <a href="img/pic/gallery.png"  style="background-image: url(img/pic/gallery.png);" class="js-gallery excursion-gallery__pic"></a>
-                        <a href="img/pic/gallery.png"  style="background-image: url(img/pic/gallery.png);" class="js-gallery excursion-gallery__pic"></a>-->
                         <a data-fancybox href="https://www.youtube.com/embed/<?=$excursion->video_src?>" class="btn btn_orange-brd excursion-gallery__video">СМОТРЕТЬ ВИДЕО</a>
                     </div>
                 </div>
@@ -200,10 +199,18 @@
                 <div class="map-sec__pic"><img src="<?=$excursion->DIRview().Yii::$app->params['resolution_main_excursion_photo'].'/'.$excursion->map?>" alt=""></div>
             </div>
         </section>
+
+
+
+        <?
+        if(!empty($comments)){
+        ?>
+
         <section class="reviews-sec">
             <div class="container">
                 <h2 class="sec-subtitle sec-subtitle_dark">Отзывы наших клиентов</h2>
                 <div class="reviews-sec-slider" id="js-reviews-sec-slider">
+
                     <?
                     foreach ($comments as $comment){
                         switch ($comment->type){
@@ -220,7 +227,7 @@
                                                     </div>
 
                                                     <div class="rating-of_comment-block">
-                                                        <img src="/content/icons/5_hole_of_stars.png" class="rating-of-comment"></img>
+                                                        <img src="/content/icons/5_hole_of_stars.png" class="rating-of-comment">
                                                         <div style="left: -<?=100-$comment->rating/5*100?>%" class="yellow-back-of-rating"></div>
                                                         <div class="gray-back-of-rating"></div>
                                                     </div>
@@ -260,22 +267,32 @@
                 </div>
             </div>
         </section>
+
+        <?}?>
+
         <section class="booking-sec">
-
-            <?php
-
-            //vd($price->price_ch);
-
-            ?>
 
             <div class="container">
                 <h2 class="sec-title">Забронировать экскурсию</h2>
-                <form action="#" class="booking-sec__form">
+                <script>
+                    var daysWeek = <?= json_encode($days) ?>;
+                </script>
+                <?
+
+                $action = Url::to( 'booking/'.$excursion['alias'].'/', true);
+
+                $form = ActiveForm::begin([
+                    'action' => $action,
+                    'options' => [
+                        'class' => 'booking-sec__form',
+                    ],
+                ]);
+                ?>
                     <div class="booking-sec__row">
                         <fieldset class="booking-sec__col">
                             <legend class="booking-sec__col-title">Выберите время и дату</legend>
                             <div class="booking-sec__col-row">
-                                <div class="booking__form-group-time">
+                                <!--<div class="booking__form-group-time">
                                     <div class="select-small">
                                         <select name="type" class="js-select" data-placeholder="Время">
                                             <option></option>
@@ -284,10 +301,15 @@
                                             <option>14:00</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="booking__form-group-date">
                                     <div class="datapicker datapicker_small">
-                                        <input type="text" name="date" class="js-datapicker" placeholder="Дата" autocomplete="off">
+                                        <?=$form->field($model, 'date')->label(false)->textInput([
+                                            'type' => 'text',
+                                            'class' => 'js-datapicker',
+                                            'placeholder' => 'Дата',
+                                            'autocomplete' => 'off'
+                                        ]);?>
                                     </div>
                                 </div>
                             </div>
@@ -295,34 +317,36 @@
                         <fieldset class="booking-sec__col">
                             <legend class="booking-sec__col-title">УКАЖИТЕ количество людей</legend>
                             <div class="booking-sec__col-row">
-
                                 <div class="booking__form-group-adult">
                                     <div class="select-small price-select">
-                                        <select name="type" id="select" class="js-select" priceValue="<?=$price->price?>" data-placeholder="Взрослых">
-                                            <option></option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                        </select>
+                                        <?
+                                        $selects = [
+                                            '',
+                                            1,
+                                            2,
+                                            3,
+                                            4,
+                                            5,
+                                            6
+                                        ];
+                                        ?>
+                                        <?=$form->field($model, 'price')->label(false)->dropDownList($selects, [
+                                            'class' => 'js-select',
+                                            'id' => 'select',
+                                            'priceValue' => $price->price,
+                                            'data-placeholder' => 'Взрослых'
+                                        ]);?>
                                     </div>
                                 </div>
                                 <?php
                                 if($price->price_ch!==null){?>
                                     <div class="booking__form-group-children">
                                         <div class="select-small price-select">
-                                            <select name="type" class="js-select" priceValue="<?=$price->price_ch?>" data-placeholder="Детей">
-                                                <option></option>
-                                                <option>0</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                                <option>6</option>
-                                            </select>
+                                            <?=$form->field($model, 'price_ch')->label(false)->dropDownList($selects, [
+                                                'class' => 'js-select',
+                                                'priceValue' => $price->price_ch,
+                                                'data-placeholder' => 'Детей'
+                                            ]);?>
                                         </div>
                                     </div>
                                 <?}?>
@@ -331,16 +355,11 @@
                                 if($price->price_pref!==null){?>
                                     <div class="booking__form-group-benefits">
                                         <div class="select-small price-select">
-                                            <select name="type" class="js-select" priceValue="<?=$price->price_pref?>" data-placeholder="Льготных">
-                                                <option></option>
-                                                <option>0</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                                <option>6</option>
-                                            </select>
+                                            <?=$form->field($model, 'price_pref')->label(false)->dropDownList($selects, [
+                                                'class' => 'js-select',
+                                                'priceValue' => $price->price_pref,
+                                                'data-placeholder' => 'Льготных'
+                                            ]);?>
                                         </div>
                                     </div>
                                 <?}?>
@@ -353,11 +372,17 @@
                             <span class="booking-sec__price-val">0</span>
                             <span class="booking-sec__price-rub"> руб.</span>
                         </div>
-                        <button class="btn btn_orange booking-sec__submit" type="submit">Забронировать</button>
+                        <?=Html::submitButton('Забронировать', [
+                            'class' => 'btn btn_orange booking-sec__submit'
+                        ]);?>
                     </div>
-                </form>
+                <?
+                $form::end();
+                ?>
             </div>
         </section>
+
+
         <section class="exc-sec">
             <div class="container">
                 <h2 class="sec-title exc-sec__title">Похожие экскурсии</h2>

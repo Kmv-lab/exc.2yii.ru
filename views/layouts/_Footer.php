@@ -2,6 +2,8 @@
 
 use app\widgets\Block;
 use app\widgets\Contact;
+use app\widgets\Menu;
+
 ?>
 
 <footer class="footer">
@@ -14,24 +16,32 @@ use app\widgets\Contact;
                     </a>
                     <div>
                         <div class="footer__title">Мы в соц. сетях:</div>
+
+                        <?
+
+                        $socialArr['vk'] = isset(Yii::$app->params['vk']) ? Yii::$app->params['vk'] : false;
+                        $socialArr['ok'] = isset(Yii::$app->params['ok']) ? Yii::$app->params['ok'] : false;
+                        $socialArr['insta'] = isset(Yii::$app->params['insta']) ? Yii::$app->params['insta'] : false;
+                        $socialArr['fb'] = isset(Yii::$app->params['fb']) ? Yii::$app->params['fb'] : false;
+
+                        ?>
                         <ul class="footer-soc">
-                            <li><a href="#" target="_blank" title="soc_name"></a></li>
-                            <li><a href="#" target="_blank" title="soc_name"></a></li>
-                            <li><a href="#" target="_blank" title="soc_name"></a></li>
-                            <li><a href="#" target="_blank" title="soc_name"></a></li>
+                            <?php
+                                foreach ($socialArr as $name => $url){
+                                    if ($url){?>
+                                        <li><a href="<?=$url?>" target="_blank" style="background-image: url(<?='/content/icons/'.$name.'.png'?>); background-size: cover;" title="<?=$name?>"></a></li>
+                                    <?}
+                                }
+                            ?>
                         </ul>
                     </div>
                 </div>
                 <div class="footer-main__col">
                     <nav class="footer-nav">
                         <div class="footer__title">Навигация:</div>
-                        <ul>
-                            <li><a href="#">Главная</a></li>
-                            <li><a href="#">Расписание</a></li>
-                            <li><a href="#">Отзывы</a></li>
-                            <li><a href="#">Контакты</a></li>
-                            <li><a href="#">Блог</a></li>
-                        </ul>
+                        <? echo Menu::widget([
+                                'footer' => true
+                        ]); ?>
                     </nav>
                 </div>
                 <div class="footer-main__col">

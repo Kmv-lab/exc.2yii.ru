@@ -43,20 +43,16 @@ $urlTo = Url::to( 'voditeli', true);
                 <h2 class="docs-sec__title">Все гиды в нашей команде являются сертифицированными специалистами:</h2>
 
                 <div>
-                    <?=Galleries::widget([
-                        'id_gal' => 14
-                    ]);?>
+                    <?=(Galleries::widget(['id_gal' => 14]));?>
                 </div>
             </div>
         </section>
-
-            <?=Block::widget([
-                'id' => 22
-            ]);?>
-
+        <?=Block::widget([
+            'id' => 22
+        ]);?>
         <section class="callback-sec callback-sec_blue">
             <?=FormCallManager::widget([
-                'model' => $model
+                'h2Text' => Yii::$app->params['form_call_manager_on_guides']
             ])?>
         </section>
 

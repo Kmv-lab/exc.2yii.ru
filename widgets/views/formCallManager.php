@@ -21,17 +21,19 @@ $action = Url::to( 'request/manager_form', true);
     ]);
     ?>
 
+    <?=$form->field($model, 'page')->label(false)->hiddenInput([
+            'value' => Yii::$app->request->pathInfo
+    ])?>
+
     <div class="callback-form__row">
         <?=$form->field($model, 'name')->label(false)->textInput([
             'class' => 'input callback-form__input',
             'placeholder' => 'Как к вам обращаться?'
-
         ])?>
         <?=$form->field($model, 'phone')->label(false)->textInput([
             'class' => 'input callback-form__input callback-form-phone',
             'placeholder' => 'Ваш телефон',
             'required',
-
         ])?>
         <?=Html::submitButton('Жду звонка', [
             'class' => 'btn btn_orange callback-form__submit'

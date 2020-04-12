@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Sitemap;
+use app\modules\adm\models\ExcursionComments;
 use app\modules\adm\models\Main_page;
 use app\modules\adm\models\Rooms;
 use app\modules\adm\models\SanBlocks;
@@ -291,6 +292,83 @@ class SiteController extends Controller{
         }
     }
 
+    public function actionContacts(){
+
+        $paramsPage = $this->getPageInfo();
+
+        return $this->render('contacts');
+    }
+
+    public function actionFaq(){
+
+        $paramsPage = $this->getPageInfo();
+
+        return $this->render('faq');
+    }
+
+    public function actionReviews(){
+
+        $paramsPage = $this->getPageInfo();
+        $showMoreReviews = false;
+        $SQL = 'SELECT COUNT(*) FROM `excursions`;';
+        $countReviews = Yii::$app->db->createCommand($SQL)->queryOne();
+        $countReviews = $countReviews['COUNT(*)'];
+        if($countReviews > Yii::$app->params['count_reviews_item'])
+            $showMoreReviews = true;
+
+
+        $reviews = ExcursionComments::find()->orderBy('date')->limit(Yii::$app->params['count_reviews_item'])->all();
+
+        $idExcs = array_column($reviews, 'id_exc');
+
+        $idExcs = array_unique($idExcs);
+
+        foreach ($idExcs as $idExc){
+            $SQL = 'SELECT `name` FROM `excursions` WHERE `id` = :id';
+            $excNames[$idExc] = Yii::$app->db->createCommand($SQL)->bindValue(':id', $idExc)->queryOne();
+        }
+
+        return $this->render('reviews', ['reviews' => $reviews, 'excNames' => $excNames, 'showMoreReviews' => $showMoreReviews]);
+    }
+
+    public function actionGet_more_reviews($last_reviews){
+
+        $showMoreReviews = false;
+
+        $SQL = 'SELECT COUNT(*) FROM `excursions`;';
+        $countReviews = Yii::$app->db->createCommand($SQL)->queryOne();
+        $countReviews = $countReviews['COUNT(*)'];
+        if($countReviews > Yii::$app->params['added_reviews_item']+$last_reviews)
+            $showMoreReviews = true;
+
+        $reviews = ExcursionComments::find()->orderBy('date')->offset($last_reviews)->limit(Yii::$app->params['added_reviews_item'])->all();
+
+        $idExcs = array_column($reviews, 'id_exc');
+
+        $idExcs = array_unique($idExcs);
+
+        foreach ($idExcs as $idExc){
+            $SQL = 'SELECT `name` FROM `excursions` WHERE `id` = :id';
+            $excNames[$idExc] = Yii::$app->db->createCommand($SQL)->bindValue(':id', $idExc)->queryOne();
+        }
+
+        $resultHTML='';
+        $i = $last_reviews+1;
+        foreach ($reviews as $review){
+            $resultHTML .= $this->renderPartial('excursionsHelpers/reviewsElem', ['excName' => $excNames[$review->id_exc]['name'], 'review' => $review, 'id' =>$i++]);
+        }
+
+        $arrayNewBlocksAndStanding = [
+            'showMore' => $showMoreReviews,
+            'code' => htmlspecialchars_decode($resultHTML)
+        ];
+
+        $result = json_encode($arrayNewBlocksAndStanding);
+
+        return $result;
+
+    }
+
     public function actionSitemap(){
         $arrAliases = $this->generateUrls();
 
@@ -451,6 +529,29 @@ class SiteController extends Controller{
         $roomsReturns[1] = $arrayOnOwnDbRooms;
 
         return $roomsReturns;
+    }
+
+    private function getPageInfo(){
+        $urlArr = explode('/',Yii::$app->request->pathInfo);//массив родительских страниц
+
+        array_pop($urlArr);//удаление последнего элемента массива, он пуст.
+
+        $okURL  = PagesHelper::getPagesInUrl($urlArr);
+        Yii::$app->params['breadcrumbs'] = PagesHelper::generateBreadcrumbs($okURL);
+
+        $pageParam = [];
+
+        foreach ($okURL as $key=>$value){
+            if ($value['page_alias'] == $urlArr[0]){
+                $pageParam = $okURL[$key];
+            }
+        }
+
+        if (empty($pageParam)){
+            die("Критическая ошибка. Обезьянки уже трудяться.");
+        }
+
+        return $pageParam;
     }
 
     /**

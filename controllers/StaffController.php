@@ -26,15 +26,6 @@ class StaffController extends  Controller
 
         $model = new ContactForm();
 
-        if(Yii::$app->request->isPost){
-            if ($model->load(Yii::$app->request->post())){
-                if($model->validate()){
-                    vd($model);
-                }
-            }
-        }
-
-
         $paramsPage = $this->getPageInfo();
 
         return $this->render('drivers', ['paramsPage' => $paramsPage, 'model' => $model]);

@@ -5,6 +5,9 @@ namespace app\controllers;
 
 
 use app\commands\PagesHelper;
+use app\models\BidRequest;
+use app\models\BookingForm;
+use app\models\ExcOrderForm;
 use app\modules\adm\models\ExcursionAdvices;
 use app\modules\adm\models\ExcursionComments;
 use app\modules\adm\models\ExcursionOptions;
@@ -15,6 +18,7 @@ use app\modules\adm\models\ExcursionTimetable;
 use app\modules\adm\models\Guides;
 use app\modules\adm\models\Page;
 use app\widgets\ExcursionsWidget;
+use DateTime;
 use Yii;
 use yii\web\Controller;
 
@@ -62,6 +66,9 @@ class ExcursionsController extends Controller
     }
 
     public function actionExcursion($alias){
+
+        //vd(Yii::$app->request->post());
+
         $excursion = Excursions::find()->where(['alias' => $alias])->one();
 
         $prices = ExcursionPrices::find()->where(['id_exc' => $excursion->id])->all();
@@ -92,7 +99,9 @@ class ExcursionsController extends Controller
 
         $advices = ExcursionAdvices::find()->where(['id_exc' => $excursion->id])->all();
 
-        $comments = ExcursionComments::find()->where(['id_exc' => $excursion->id])->all();
+        $comments = ExcursionComments::find()->where(['id_exc' => $excursion->id])->orderBy('date')->all();
+
+        $model = new ExcOrderForm();
 
         return $this->render('excursion', [
             'excursion' => $excursion,
@@ -102,7 +111,64 @@ class ExcursionsController extends Controller
             'guide' => $guide,
             'options' => $options,
             'advices' => $advices,
-            'comments' => $comments
+            'comments' => $comments,
+            'model' => $model
+        ]);
+    }
+
+    public function actionBooking($alias){
+
+        $excursion = Excursions::find()->where(['alias' => $alias])->one();
+
+        $prices = ExcursionPrices::find()->where(['id_exc' => $excursion->id])->all();
+        if (!empty($prices)){
+            if (count($prices) > 1){
+                $timeNow = strtotime('now');
+                foreach ($prices as $price){
+                    if((strtotime($price->start) < $timeNow) && ($timeNow < strtotime($price->end))){
+                        $priceExc = $price;
+                    }
+                }
+            }
+            elseif (count($prices) == 1){
+                $priceExc = $prices[0];
+            }
+        }
+        else{
+            $priceExc = 'Пока не указано';
+        }
+
+        $oldModel = new ExcOrderForm();
+
+        $model = new BookingForm();
+        if((Yii::$app->request->isPost) && ($oldModel->load(Yii::$app->request->post()))){
+            $model->date = $oldModel['date'];
+            $model->price = $oldModel['price'];
+            $model->price_ch = $oldModel['price_ch'];
+            $model->price_pref = $oldModel['price_pref'];
+        }
+
+        if ((Yii::$app->request->isPost) && ($model->load(Yii::$app->request->post()))){
+            $date = new DateTime('NOW');
+            $requestBidExc = new BidRequest();
+            $requestBidExc->date_request = $date->format('Y-m-d H:i:s');
+            $requestBidExc->page_requst = Yii::$app->request->pathInfo;
+            $requestBidExc->id_exc = $excursion->id;
+            $excDate = new DateTime($model->date);
+            $requestBidExc->date_exc = $excDate->format('Y-m-d H:i:s');
+            $requestBidExc->ticket = $model->price;
+            $requestBidExc->ticket_ch = $model->price_ch;
+            $requestBidExc->ticket_pref = $model->price_pref;
+            $requestBidExc->user_name = $model->personName;
+            $requestBidExc->user_phone = $model->personPhone;
+            $requestBidExc->user_email = $model->personEmail;
+            $requestBidExc->save();
+        }
+
+        return $this->render('booking', [
+            'excursion' => $excursion,
+            'price' => $priceExc,
+            'model' => $model
         ]);
     }
 

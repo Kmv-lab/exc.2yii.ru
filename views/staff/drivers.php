@@ -1,6 +1,6 @@
 <?php
 
-use app\modules\adm\models\Block;
+use app\widgets\Block;
 use app\widgets\Breadcrumbs;
 use app\widgets\FormCallManager;
 use app\widgets\Staff;
@@ -31,8 +31,9 @@ $urlToGuides = Url::to( 'ekskursovodyi', true);
 
                 <p class="drivers__txt">Только комфортные автобусы. Наши автобусы и микроавтобусы проходят техосмотр раз в полгода, а также осматриваются штатный техниками до экскурсии и после возвращения с рейса. Весь транспорт лицензирован в 2019 году и оборудован современной техикой (кондиционерами, видеотехникой, тахографами и системой «Эра-Глонасс»).</p>
                 <h2 class="sec-subtitle">У нас самый большой собственный автопарк на&nbsp;Северном&nbsp;Кавказе!</h2>
-                <?php $block = Block::find()->where(['id_block' => 24])->one();
-                echo $block->block_content;?>
+                <?= Block::widget([
+                    'id' => 24
+                ]);?>
                 <h2 class="sec-subtitle">Тысячи километров по серпантину каждый месяц</h2>
                 <p class="drivers__txt">В штате работают 7 водителей первой категории со стажем более 20 лет. Каждый водитель проходит обязательно медицинское освидетельствование перед поездкой.</p>
                 <?=Staff::widget([
@@ -40,13 +41,12 @@ $urlToGuides = Url::to( 'ekskursovodyi', true);
                 ])?>
             </div>
         </section>
-        <?php
-            $block = Block::find()->where(['id_block' => 23])->one();
-            echo $block->block_content;
-        ?>
+        <?= Block::widget([
+            'id' => 23
+        ]);?>
         <section class="callback-sec callback-sec_blue">
             <?=FormCallManager::widget([
-                    'model' => $model
+                'h2Text' => Yii::$app->params['form_call_manager_on_drivers']
             ])?>
         </section>
         <section class="banner">

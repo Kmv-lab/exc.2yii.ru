@@ -8,12 +8,18 @@ use app\commands\PagesHelper;
 
 class Menu extends Widget
 {
+    public $footer = false;
+
     public function run()
     {
         $urlArr = explode('/',Yii::$app->request->pathInfo);
         unset($urlArr[count($urlArr)-1]);
         $okURL  = PagesHelper::getPagesInUrl($urlArr);
-        return $this->render('menu', ['pages'=>$this->getAllChildPages(0), 'okURL'=>$okURL]);
+        return $this->render('menu', [
+            'pages'=>$this->getAllChildPages(0),
+            'okURL'=>$okURL,
+            'isFooter' => $this->footer
+            ]);
     }
     function getAllChildPages($id=0){
 

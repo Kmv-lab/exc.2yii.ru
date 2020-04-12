@@ -29,16 +29,6 @@ return [
                                         'Железноводск'
                                     ],
 
-  'type_san_block'                  => [
-                                        'Профили лечения',//0
-                                        'Галерея',//1
-                                        'WYSIWYG',
-                                        'Code-Mirror',//3
-                                        'YouTube',
-                                        'Номера',//5
-                                        'Цены'
-                                    ],
-
     'min_image_size_for_upload'       => 100,
     'max_image_size_for_upload'       => 100000000000,
 
