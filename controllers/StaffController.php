@@ -15,6 +15,8 @@ class StaffController extends  Controller
 
     public function actionGuides(){
 
+        SiteController::CreateSeo();
+
         $model = new ContactForm();
 
         $paramsPage = $this->getPageInfo();
@@ -23,6 +25,8 @@ class StaffController extends  Controller
     }
 
     public function actionDrivers(){
+
+        SiteController::CreateSeo();
 
         $model = new ContactForm();
 

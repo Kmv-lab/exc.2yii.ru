@@ -36,7 +36,7 @@ class settings implements BootstrapInterface {
 
         $SQL = 'SELECT `id_page`,  `id_parent_page`,  `page_alias`,  `page_name`,  `page_menu_name`,  `page_breadcrumbs_name`,
        `page_link_title`,  `page_priority`,
-       `seo_h1`, `seo_h1_span`,  `seo_description`,  `seo_title`,  `is_active`,  `show_in_menu`,  `show_childs`, no_del, no_change_position,
+       `seo_h1`, `seo_h1_span`,  `seo_description`, `seo_keywords`,  `seo_title`,  `is_active`,  `show_in_menu`,  `show_childs`, no_del, no_change_position,
        show_sitemap, file_name
         FROM pages';
         Yii::$app->params['pages'] = $this->db->createCommand($SQL)->queryAll();

@@ -4,6 +4,7 @@
 namespace app\controllers;
 
 
+use app\commands\helpers;
 use app\commands\PagesHelper;
 use app\models\BidRequest;
 use app\models\BookingForm;
@@ -21,11 +22,14 @@ use app\widgets\ExcursionsWidget;
 use DateTime;
 use Yii;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class ExcursionsController extends Controller
 {
 
     public function actionExcursions(){
+
+        SiteController::CreateSeo();
 
         $alias = Yii::$app->request->pathInfo;
 
@@ -49,8 +53,7 @@ class ExcursionsController extends Controller
         ]);
         $itsAll = false;
 
-        $resultData = Excursions::find()->where([])->asArray()->offset($lasting_exc + Yii::$app->params['added_excursion_items_on_excursions'])->all();
-        if (empty($resultData))
+        if (isset(Yii::$app->params["show_button_more_exc"]) && Yii::$app->params["show_button_more_exc"])
             $itsAll = true;
 
         $arrayNewBlocksAndStanding = [
@@ -66,8 +69,6 @@ class ExcursionsController extends Controller
     }
 
     public function actionExcursion($alias){
-
-        //vd(Yii::$app->request->post());
 
         $excursion = Excursions::find()->where(['alias' => $alias])->one();
 

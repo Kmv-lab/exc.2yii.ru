@@ -6,8 +6,10 @@ namespace app\widgets;
 
 use app\modules\adm\models\ExcursionPrices;
 use app\modules\adm\models\Excursions;
+use DateTime;
 use Yii;
 use yii\base\Widget;
+use yii\helpers\VarDumper;
 
 class ExcursionsWidget extends Widget
 {
@@ -25,61 +27,107 @@ class ExcursionsWidget extends Widget
     public function run()
     {
 
-        //$model = Excursions::find()->each(10);
-        //vd($model);
-        $daysNameArray = ExcursionPrices::getDaysArray();
-
-        if(!$this->quantityExc){
-            $this->quantityExc = 3;
+        if (!$this->isAjax){
+            $this->lastingExc = 0;
         }
 
-        $model = $this->isAjax ? Excursions::find()->where([])->limit($this->quantityExc)->asArray()->offset($this->lastingExc)->all() : Excursions::find()->where([])->limit($this->quantityExc)->asArray()->all();
+        $daysNameArray = ExcursionPrices::getDaysArray();
+        $intervals = [];
+        $prices = ExcursionPrices::find()->all();
 
-        foreach ($model as $key => $value){
+        foreach ($prices as $price) {
+            $today = new DateTime();
+            $start = new DateTime($price->start);
+            $end = new DateTime($price->end);
+            if (($start < $today) && ($today < $end)){
 
-            $pricesModel = ExcursionPrices::find()->where(['id_exc' => $value['id']])->asArray()->all();
-            foreach ($pricesModel as $priceElem){
-                $start = strtotime($priceElem['start']);
-                $end = strtotime($priceElem['end']);
-                $now = strtotime('now');
+                if($today->format('G') > 12)
+                    $today->modify('+1 day');
 
-                if (($start <= $now) && ($now <= $end)){
+                $days = [
+                    1 => $price['mon'],
+                    2 => $price['tue'],
+                    3 => $price['wed'],
+                    4 => $price['thu'],
+                    5 => $price['fri'],
+                    6 => $price['sat'],
+                    7 => $price['sun'],
+                ];
 
-                    $model[$key]['prise'] = $priceElem['price'];
+                foreach ($days as $day => $value){
+                    if($value){
+                        $daysArr[]=$day;
+                    }
+                }
 
-                    $daysExc = [
-                        1 => $priceElem['mon'],
-                        2 => $priceElem['tue'],
-                        3 => $priceElem['wed'],
-                        4 => $priceElem['thu'],
-                        5 => $priceElem['fri'],
-                        6 => $priceElem['sat'],
-                        7 => $priceElem['sun'],
-                    ];
+                for ($i = $today->format('N'); $i < 8; $i++){
+                    if (in_array($i, $daysArr)){
+                        $nextExc = new DateTime('+'. $i-$today->format('N') .' day');
+                        break 1;
+                    }
+                }
 
-                    for ($i = date('N'); $i <= 7; $i++){
-                        if ($daysExc[$i]){
-                            $model[$key]['next_day'] = $daysNameArray[$i];
+
+                if (!isset($nextExc)){
+                    for ($i = 1; $i < 8; $i++){
+                        if (in_array($i, $daysArr)){
+                            $nextExc = new DateTime("+". 7-$today->format('N')+$i ." day");
                             break 1;
                         }
                     }
-
-                    if(!isset($model[$key]['next_day'])) {
-                        for ($i = 1; $i <= 7; $i++) {
-                            if ($daysExc[$i]) {
-                                $model[$key]['next_day'] = $daysNameArray[$i];
-                                break 1;
-                            }
-                        }
-                    }
                 }
+
+                $interval = $today->diff($nextExc);
+
+                $today = new DateTime();
+
+                if ($today->format('j')==$nextExc->format('j')){
+                    $nameDayOfNextExc = 'Сегодня';
+                }
+                elseif ($today->modify('+1 day')->format('j')==$nextExc->format('j')){
+                    $nameDayOfNextExc = 'Завтра';
+                }
+                else{
+                    $nameDayOfNextExc = $daysNameArray[$nextExc->format('N')];
+                }
+
+                $intervals[$price->id_exc] = $interval->d;
+                $nextDaysExc[$price->id_exc] = [
+                    'day' => $nameDayOfNextExc,
+                    'price' => $price->price
+                ];
+
+                unset($daysArr, $nextExc);
+            }
+
+        }
+
+        asort($intervals);
+
+        $idsExc = [];
+        $i=0;
+        foreach ($intervals as $id_exc=>$null){
+            $idsExc [$i++] = $id_exc;
+        }
+
+        for ($i = $this->lastingExc; $i<$this->quantityExc+$this->lastingExc; $i++){
+            if(isset($idsExc[$i])){
+                $excursions[$i] = Excursions::find()->where(['id' => $idsExc[$i]])->asArray()->one();
+                $excursions[$i]['price'] = $nextDaysExc[$excursions[$i]['id']]['price'];
+                $excursions[$i]['next_day'] = $nextDaysExc[$excursions[$i]['id']]['day'];
             }
         }
 
+        if (count($intervals) <= $this->quantityExc+$this->lastingExc){
+            Yii::$app->params['show_button_more_exc'] = true;
+        }
+
+
         if ($this->onlyElem){
+
             $result ='';
             $this->lastingExc++;
-            foreach ($model as $exc){
+            foreach ($excursions as $exc){
                 $result .= $this->render('/site/excursionsHelpers/excursionOnList', [
                     'exc' => $exc,
                     'number' => $this->lastingExc
@@ -89,8 +137,9 @@ class ExcursionsWidget extends Widget
             return $result;
         }
 
+
         return $this->render('excursions', [
-            'modelExc' => $model
+            'modelExc' => $excursions
         ]);
     }
 

@@ -229,63 +229,6 @@ class SiteController extends Controller{
         ]);
     }
 
-    public function actionSanatorium($alias)
-    {
-        $sanatorium = SansPrev::find()->where(['alias' => $alias, 'is_active' => 1])->one();
-
-        //$model = SanBlocks::find()->where([/*'id_san' => $sanatorium->id,*/ 'type' => 3])->one();
-
-        //Получение всех блоков.
-        $model = SanBlocks::find()->where(['id_san' => $sanatorium->id, 'is_active' => 1])->orderBy(['priority' => SORT_ASC])->all();
-
-        $healBase = $this->getSanatoriunHealBase($sanatorium->id_in_main_table);
-
-        $dataRooms = $this->getRoomsDataForSanatorium($sanatorium->id_in_main_table);
-
-        //vd($incompletePriceArray);
-
-        return $this->render('sanatorium', [
-            'sanatorium' => $sanatorium,
-            'modelSanBlock' => $model,
-            'mainHeal' => $healBase[0],
-            'optionHeal' => $healBase[1],
-            'dataRooms' => $dataRooms
-        ]);
-    }
-
-    public function actionPrices(){
-
-        // Получаем массив страниц соответствующий текущему url, отправляем URL и все-все страницы
-        $urlArr = explode('/',Yii::$app->request->pathInfo);//массив родительских страниц
-
-        array_pop($urlArr);//удаление последнего элемента массива, он пуст.
-
-        $okURL  = PagesHelper::getPagesInUrl($urlArr);
-
-        if(!$okURL)
-            throw new NotFoundHttpException('Страница не найдена');
-
-        $currentPage  =   $okURL[count($okURL)-1];
-
-        $SQL = 'SELECT page_content FROM pages WHERE id_page = :id';
-        $page_ext = Yii::$app->db->createCommand($SQL)->bindValue(':id', $currentPage['id_page'])->queryOne();
-
-        $currentPage  = array_merge($currentPage,$page_ext);
-
-        Yii::$app->params['breadcrumbs'] = PagesHelper::generateBreadcrumbs($okURL);
-
-        //============ Обработка вызовов виджетов в тексте
-        helpers::createSeo($currentPage, $currentPage['page_name'], $currentPage['page_name']);
-
-        $currentPage['page_content'] = helpers::checkForWidgets($currentPage['page_content']);
-
-        if(!empty($currentPage['file_name'])){
-            Yii::$app->params['photo'] = Yii::$app->params['path_to_pages_images'].$currentPage['file_name'];
-        }
-
-        return $this->render('prices', ['page' => $currentPage]);
-    }
-
     public function actionAjaxForm(){
         if (Yii::$app->request->isAjax){
             vd(Yii::$app->request->post());
@@ -294,6 +237,8 @@ class SiteController extends Controller{
 
     public function actionContacts(){
 
+        $this->CreateSeo();
+
         $paramsPage = $this->getPageInfo();
 
         return $this->render('contacts');
@@ -301,12 +246,16 @@ class SiteController extends Controller{
 
     public function actionFaq(){
 
+        $this->CreateSeo();
+
         $paramsPage = $this->getPageInfo();
 
         return $this->render('faq');
     }
 
     public function actionReviews(){
+
+        $this->CreateSeo();
 
         $paramsPage = $this->getPageInfo();
         $showMoreReviews = false;
@@ -470,6 +419,17 @@ class SiteController extends Controller{
         //vd($healBase);
 
         return $healBase;
+    }
+
+    public static function CreateSeo(){
+        $urlArr = explode('/',Yii::$app->request->pathInfo);//массив родительских страниц
+        array_pop($urlArr);//удаление последнего элемента массива, он пуст.
+        $okURL  = PagesHelper::getPagesInUrl($urlArr);
+        if(!$okURL)
+            throw new NotFoundHttpException('Страница не найдена');
+        $currentPage  =   $okURL[count($okURL)-1];
+        //============ Обработка вызовов виджетов в тексте
+        helpers::createSeo($currentPage, $currentPage['page_name'], $currentPage['page_name']);
     }
 
     /**

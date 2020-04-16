@@ -44,6 +44,7 @@ class ExcursionsController extends Controller
                 }
             }
             $model->save();
+            return $this->redirect(['update', 'idExc' => $model->id]);
         }
 
         $dataProvider = new ActiveDataProvider([

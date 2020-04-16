@@ -28,7 +28,7 @@ $urlTo = Url::to( 'excursion/'.$exc['alias'], true);
         <span class="exc-item__txt"><?=$exc['desc']?></span>
     </div>
     <div class="exc-item__footer">
-        <div class="exc-item__price">от <b><?=$exc['prise']?></b>&nbsp;р.</div>
+        <div class="exc-item__price">от <b><?=$exc['price']?></b>&nbsp;р.</div>
         <?=Html::a('ПОДРОБНЕЕ', $urlTo, ['class' => 'btn btn_orange-brd exc-item__btn']) ?>
     </div>
 </div>

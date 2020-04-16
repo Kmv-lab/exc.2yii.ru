@@ -34,7 +34,9 @@ $towns = [
         ]);
         ?>
 
-            <?=$form->field($model, 'name')->label('Название')->textInput();?>
+            <?=$form->field($model, 'name', ['inputOptions' => ['class' => 'translit_source form-control']])->label('Название')->textInput();?>
+
+            <?=$form->field($model, 'alias', ['inputOptions' => ['class' => 'translit_dest form-control']])->label('Путь')->textInput();?>
 
             <span style="font-weight: bold">Описание</span>
             <?=$form->field($model, 'desc',  [

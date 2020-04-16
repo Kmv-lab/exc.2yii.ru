@@ -25,5 +25,10 @@ use yii\widgets\Pjax;
 
 
             </div>
-            <?=Html::a('ПОКАЗАТЬ ЕЩЕ', Url::to(['more_exc', 'lasting_exc' => 1]), ['class' => 'btn btn_orange exc-sec__btn more-exc']) ?>
+            <?
+            if (!isset(Yii::$app->params["show_button_more_exc"])){
+                echo Html::a('ПОКАЗАТЬ ЕЩЕ', Url::to(['more_exc', 'lasting_exc' => 1]), ['class' => 'btn btn_orange exc-sec__btn more-exc']);
+            }
+            ?>
+
 
