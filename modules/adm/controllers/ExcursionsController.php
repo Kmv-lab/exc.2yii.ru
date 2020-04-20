@@ -4,6 +4,7 @@ namespace app\modules\adm\controllers;
 
 use app\commands\ImagickHelper;
 use app\modules\adm\models\ExcursionAdvices;
+use app\modules\adm\models\ExcursionCategory;
 use app\modules\adm\models\ExcursionComments;
 use app\modules\adm\models\ExcursionOptions;
 use app\modules\adm\models\ExcursionPhotos;
@@ -23,6 +24,11 @@ class ExcursionsController extends Controller
     public function actionIndex(){
 
         $model = new Excursions();
+
+        $guides = (new Query())
+            ->select(['id', 'name'])
+            ->from('guides')
+            ->all();
 
         if ($post = Yii::$app->request->post()) {
             foreach ($post['Excursions'] as $key => $value) {
@@ -51,12 +57,17 @@ class ExcursionsController extends Controller
             'query' => Excursions::find(),
         ]);
 
-        return $this->render('index', ['model' => $model, 'provider' => $dataProvider]);
+        return $this->render('index', [
+            'model' => $model,
+            'provider' => $dataProvider,
+            'guides' => $this->convertDataToDDArray($guides)
+        ]);
     }
 
     public function actionUpdate($idExc){
 
         $model = Excursions::findOne($idExc);
+
         $guides = (new Query())
             ->select(['id', 'name'])
             ->from('guides')
@@ -161,6 +172,54 @@ class ExcursionsController extends Controller
             $model->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionCategoryes($idExc){
+
+        $excCategory = [];
+
+        $excCategorys = ExcursionCategory::find()->where(['id_exc' => $idExc])->all();
+
+        $categorys = Excursions::getCategories();
+
+        if(Yii::$app->request->isPost){
+            $post = Yii::$app->request->post();
+            unset($post['_csrf']);
+            foreach ($excCategorys as $value){
+                if (!isset($post['category_'.$value->id_category])){
+                    unset($post['category_'.$value->id_category]);
+                    $value->delete();
+                }
+                unset($post['category_'.$value->id_category]);
+            }
+            foreach ($post as $key => $value){
+                $idCategory = substr($key, -1);
+                $excCategoryNew = new ExcursionCategory();
+                $excCategoryNew->id_exc = $idExc;
+                $excCategoryNew->id_category = $idCategory;
+                $excCategoryNew->save();
+            }
+        }
+
+        unset($excCategorys);
+
+        $excCategorys = ExcursionCategory::find()->where(['id_exc' => $idExc])->all();
+
+        foreach ($excCategorys as $value){
+            $excCategory[] = $value->id_category;
+        }
+
+        $excursion = Excursions::find()->where(['id' => $idExc])->one();
+
+        if (empty($excursion))
+            return 'Ошибка, нет такой Экскурсии';
+
+        return $this->render('category', [
+            'categorys' => $categorys,
+            'idExc' => $idExc,
+            'excursion' => $excursion,
+            'excCategory' => $excCategory
+        ]);
     }
 
     public function actionAll_photos($idExc){

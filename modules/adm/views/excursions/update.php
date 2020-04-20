@@ -25,6 +25,7 @@ $towns = [
     <?=Html::a('Изменить фотографии для '.$model->name, Url::to(['excursions/all_photos', 'idExc' => $model->id]), ['class' => 'btn btn-primary']) ?>
     <?=Html::a('Цены для '.$model->name, Url::to(['excursions/prices', 'idExc' => $model->id]), ['class' => 'btn btn-primary']) ?>
     <?=Html::a('Расписание для '.$model->name, Url::to(['excursions/timetable', 'idExc' => $model->id]), ['class' => 'btn btn-primary']) ?>
+    <?=Html::a('Изменить категории для '.$model->name, Url::to(['excursions/categoryes', 'idExc' => $model->id]), ['class' => 'btn btn-primary']) ?>
     <?=Html::a('Отзывы для '.$model->name, Url::to(['excursions/comments', 'idExc' => $model->id]), ['class' => 'btn btn-primary']) ?>
 
     <div class="new-elem-craete">
@@ -130,14 +131,14 @@ $towns = [
         <?=$form->field($model, 'distance')->label('Расстояние маршрута экскурсии')->textInput()?>
 
         <!--Изменить на звёздочки, возможно, а может и нет-->
-        <?=$form->field($model, 'rating')->label('Рейтинг')->textInput()?>
+        <?=$form->field($model, 'rating')->label('Рейтинг')->textInput(['type' => 'number', 'max' => 10, 'min' => 0, 'step' => 'any']);?>
 
         <?=$form->field($model, 'is_hit')->checkbox([], false)->label('Метка Хита') ?>
 
         <!--Выбор города-->
         <?=$form->field($model, 'id_town')->label('Выбор города')->dropDownList($model->getTowns(), ['prompt' => 'Город не выбран!']);?>
 
-        <?=$form->field($model, 'duration')->label('Продолжительность')->textInput()?>
+        <?=$form->field($model, 'duration')->label('Продолжительность')->textInput(['type' => 'number', 'max' => 24, 'min' => 0, 'step' => 1])?>
 
         <?=$form->field($model, 'time_start')->label('Начало экскурсии(отправление)')->input('time');?>
         <?=$form->field($model, 'time_end')->label('Конец экскурсии(Приезд)')->input('time');?>

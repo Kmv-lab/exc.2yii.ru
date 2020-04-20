@@ -24,8 +24,14 @@ class ExcursionsWidget extends Widget
 
     public $lastingExc = 1;
 
+    public $filter;
+
     public function run()
     {
+
+        if(isset($this->filter)){
+            //vd($this->filter);
+        }
 
         if (!$this->isAjax){
             $this->lastingExc = 0;
@@ -36,13 +42,15 @@ class ExcursionsWidget extends Widget
         $prices = ExcursionPrices::find()->all();
 
         foreach ($prices as $price) {
-            $today = new DateTime();
+            $startingSerchDay = new DateTime();
             $start = new DateTime($price->start);
             $end = new DateTime($price->end);
-            if (($start < $today) && ($today < $end)){
 
-                if($today->format('G') > 12)
-                    $today->modify('+1 day');
+            if (($start < $startingSerchDay) && ($startingSerchDay < $end)){
+
+                if($startingSerchDay->format('G') > 12){
+                    $startingSerchDay->modify('+1 day');
+                }
 
                 $days = [
                     1 => $price['mon'],
@@ -60,24 +68,25 @@ class ExcursionsWidget extends Widget
                     }
                 }
 
-                for ($i = $today->format('N'); $i < 8; $i++){
+                for ($i = $startingSerchDay->format('N'); $i < 8; $i++){
                     if (in_array($i, $daysArr)){
-                        $nextExc = new DateTime('+'. $i-$today->format('N') .' day');
+                        $nextExc = clone $startingSerchDay;
+                        $nextExc = $nextExc->modify('+'. $i-$startingSerchDay->format('N') .' day');
                         break 1;
                     }
                 }
 
-
                 if (!isset($nextExc)){
                     for ($i = 1; $i < 8; $i++){
                         if (in_array($i, $daysArr)){
-                            $nextExc = new DateTime("+". 7-$today->format('N')+$i ." day");
+                            $day = $i - 1;
+                            $nextExc = new DateTime("$day day next week");
                             break 1;
                         }
                     }
                 }
 
-                $interval = $today->diff($nextExc);
+                $interval = $startingSerchDay->diff($nextExc);
 
                 $today = new DateTime();
 
@@ -97,8 +106,8 @@ class ExcursionsWidget extends Widget
                     'price' => $price->price
                 ];
 
-                unset($daysArr, $nextExc);
             }
+            unset($daysArr, $nextExc, $startingSerchDay, $today);
 
         }
 

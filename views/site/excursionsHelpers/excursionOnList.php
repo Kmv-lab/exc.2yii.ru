@@ -17,12 +17,12 @@ $urlTo = Url::to( 'excursion/'.$exc['alias'], true);
     <?}?>
     <a href="<?=$urlTo?>" class="exc-item__pic">
         <img src="<?=Excursions::DIRview().Yii::$app->params['resolution_main_excursion_photo'].'/'.$exc['main_photo']?>" alt="">
-        <div class="exc-item__date">Ближайшее: <b><?=$exc['next_day']?> в <?=$exc['time_start']?></b></div>
+        <div class="exc-item__date">Ближайшее: <b><?=$exc['next_day']?> в <?=ltrim(substr($exc['time_start'], 0, 5), '0')?></b></div>
     </a>
     <div class="exc-item__main">
         <div class="exc-item__bar">
             <div class="exc-item__bar-item exc-item__bar-item_rait">Рейтинг: <span><?=$exc['rating']?> / 10</span></div>
-            <div class="exc-item__bar-item exc-item__bar-item_time">Длительность: <span><?=$exc['duration']?></span></div>
+            <div class="exc-item__bar-item exc-item__bar-item_time">Длительность: <span><?=$exc['duration']?> ч.</span></div>
         </div>
         <?=Html::a($exc['name'], $urlTo, ['class' => 'exc-item__name']) ?>
         <span class="exc-item__txt"><?=$exc['desc']?></span>

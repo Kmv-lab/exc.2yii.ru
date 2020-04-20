@@ -7,6 +7,7 @@ use app\modules\adm\models\ExcursionComments;
 use app\modules\adm\models\Main_page;
 use app\modules\adm\models\Rooms;
 use app\modules\adm\models\SanBlocks;
+use app\modules\adm\models\StaticSeo;
 use app\widgets\ExcursionsWidget;
 use yii\helpers\Url;
 use yii\jui\Widget;
@@ -216,6 +217,8 @@ class SiteController extends Controller{
     //___________________________________________________________________________________________________________________
 
     public function actionIndex(){
+
+        helpers::createSEO(StaticSeo::findOne(1));
 
         $blocks = Main_page::find()->orderBy('priority')->all();
 

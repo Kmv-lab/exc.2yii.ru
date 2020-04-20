@@ -8,6 +8,7 @@ use app\commands\helpers;
 use app\commands\PagesHelper;
 use app\models\BidRequest;
 use app\models\BookingForm;
+use app\models\ExcFilter;
 use app\models\ExcOrderForm;
 use app\modules\adm\models\ExcursionAdvices;
 use app\modules\adm\models\ExcursionComments;
@@ -29,6 +30,14 @@ class ExcursionsController extends Controller
 
     public function actionExcursions(){
 
+        $model = new ExcFilter();
+
+        if(Yii::$app->request->isPost){
+            if ($model->load(Yii::$app->request->post())){
+                //vd($model->attributes);
+            }
+        }
+
         SiteController::CreateSeo();
 
         $alias = Yii::$app->request->pathInfo;
@@ -39,7 +48,7 @@ class ExcursionsController extends Controller
 
         Yii::$app->params['breadcrumbs'] = PagesHelper::generateBreadcrumbs($pages);
 
-        return $this->render('excursions', ['page' => $pages]);
+        return $this->render('excursions', ['page' => $pages, 'model' => $model]);
 
     }
 

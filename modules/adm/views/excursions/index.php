@@ -6,13 +6,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-$guides = [
-    1 => 'Алексеев Никита Хрушёвич',
-    2 => 'Николаев Игорь Игорьевич',
-    3 => 'Брюзга Василий Петрович',
-    4 => 'Дуркин Дурак Дуракович'
-];
-
 $towns = [
     1 => 'Ессентуки',
     2 => 'Пятигорск',
@@ -38,6 +31,8 @@ $towns = [
 
             <?=$form->field($model, 'alias', ['inputOptions' => ['class' => 'translit_dest form-control']])->label('Путь')->textInput();?>
 
+
+
             <span style="font-weight: bold">Описание</span>
             <?=$form->field($model, 'desc',  [
                                                 'inputOptions' => ['class' => 'ckeditor'],
@@ -62,12 +57,14 @@ $towns = [
             <?=$form->field($model, 'distance')->label('Расстояние маршрута экскурсии')->textInput()?>
 
             <!--Изменить на звёздочки, возможно, а может и нет-->
-            <?=$form->field($model, 'rating')->label('Рейтинг')->textInput()?>
+            <?=$form->field($model, 'rating')->label('Рейтинг')->textInput(['type' => 'number', 'max' => 10, 'min' => 0, 'step' => 'any']);?>
+
+            <?=$form->field($model, 'is_hit')->checkbox([], false)->label('Метка Хита') ?>
 
             <!--Выбор города-->
             <?=$form->field($model, 'id_town')->label('Выбор города')->dropDownList($towns, ['prompt' => 'Город не выбран!']);?>
 
-            <?=$form->field($model, 'duration')->label('Продолжительность')->textInput()?>
+            <?=$form->field($model, 'duration')->label('Продолжительность')->textInput(['type' => 'number', 'max' => 24, 'min' => 0, 'step' => 1])?>
 
             <?=$form->field($model, 'time_start')->label('Начало экскурсии(отправление)')->input('time');?>
             <?=$form->field($model, 'time_end')->label('Конец экскурсии(Приезд)')->input('time');?>

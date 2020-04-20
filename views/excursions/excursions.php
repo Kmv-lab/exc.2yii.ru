@@ -5,6 +5,8 @@ use app\widgets\Breadcrumbs;
 use app\widgets\ExcursionsWidget;
 use app\widgets\FormCallManager;
 use app\widgets\Galleries;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 ?>
 <main class="main">
@@ -44,35 +46,69 @@ use app\widgets\Galleries;
                     <h2 class="exc-sec-filter__title">Выберите нужные параметры</h2>
                     <div class="exc-sec-filter__wrap">
                         <div class="exc-sec-filter__row">
-                            <div class="exc-sec-filter__col">
-                                <div class="datapicker datapicker_small">
-                                    <input type="text" name="date" class="js-datapicker" placeholder="Удобная дата" autocomplete="off">
+                            <?
+                            $form = ActiveForm::begin([
+                                'options' => [
+                                    'class' => 'form-filter',
+                                ],
+                            ]);
+                            ?>
+                                <div class="exc-sec-filter__col">
+                                    <div class="datapicker datapicker_small">
+                                        <?=$form->field($model, 'date')->label(false)->textInput([
+                                            'type' => 'text',
+                                            'class' => 'js-datapicker',
+                                            'placeholder' => 'Дата',
+                                            'autocomplete' => 'off'
+                                        ]);?>
+                                    </div>
+                                </div>
+                                <div class="exc-sec-filter__col">
+                                    <div class="select-small">
+                                        <?php
+
+                                        $selects = [
+                                            'Тип экскурсии-1',
+                                            'Тип экскурсии-2',
+                                            'Тип экскурсии-3'
+                                        ];
+
+                                        ?>
+                                        <?=$form->field($model, 'type')->label(false)->dropDownList($selects, [
+                                            'class' => 'js-select',
+                                            'data-placeholder' => 'Тип экскурсии'
+                                        ]);?>
+
+                                    </div>
+                                </div>
+                                <div class="exc-sec-filter__col">
+                                    <div class="select-small">
+
+                                        <?php
+
+                                        $selects_duration = [
+                                            'Продолжительность-1',
+                                            'Продолжительность-2',
+                                            'Продолжительность-3'
+                                        ];
+
+                                        ?>
+                                        <?=$form->field($model, 'duration')
+                                            ->label(false)->dropDownList($selects_duration, [
+                                            'class' => 'js-select',
+                                            'data-placeholder' => 'Продолжительность'
+                                        ]);?>
+                                    </div>
+                                </div>
+                                <div class="exc-sec-filter__col">
+                                    <?=Html::submitButton('ПОДОБРАТЬ ЭКСКУРСИЮ', [
+                                        'class' => 'btn btn_orange exc-sec-filter__btn'
+                                    ]);?>
                                 </div>
                             </div>
-                            <div class="exc-sec-filter__col">
-                                <div class="select-small">
-                                    <select name="type" class="js-select" data-placeholder="Тип экскурсии">
-                                        <option></option>
-                                        <option>Тип экскурсии-1</option>
-                                        <option>Тип экскурсии-2</option>
-                                        <option>Тип экскурсии-3</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="exc-sec-filter__col">
-                                <div class="select-small">
-                                    <select name="type" class="js-select" data-placeholder="Продолжительность">
-                                        <option></option>
-                                        <option>Продолжительность-1</option>
-                                        <option>Продолжительность-2</option>
-                                        <option>Продолжительность-3</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="exc-sec-filter__col">
-                                <button class="btn btn_orange exc-sec-filter__btn">ПОДОБРАТЬ ЭКСКУРСИЮ</button>
-                            </div>
-                        </div>
+                        <?
+                        $form::end();
+                        ?>
                         <ul class="exc-sec-filter__row">
                             <li class="exc-sec-filter__col">
                                 <a href="#" class="exc-sec-filter-item">
@@ -117,7 +153,8 @@ use app\widgets\Galleries;
         <?php
 
         echo ExcursionsWidget::widget([
-                'quantityExc' => Yii::$app->params['count_excursion_items_on_excursions']
+                'quantityExc' => Yii::$app->params['count_excursion_items_on_excursions'],
+                'filter' => $model
             ]);
         ?>
 

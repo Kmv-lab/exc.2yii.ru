@@ -29,6 +29,21 @@ class Excursions extends ActiveRecord
         return $townArray;
     }
 
+    public static function getCategories($idCategory = null){
+        $categoryArray = [
+            1 => 'Подъём в горы',
+            2 => 'Верховые экскурсии',
+            3 => 'Плавание',
+            4 => 'Позновательные экскурсии'
+        ];
+
+        if ($idCategory && isset($categoryArray[$idCategory])){
+            return $categoryArray[$idCategory];
+        }
+
+        return $categoryArray;
+    }
+
     public static function DIRview()
     {
         return Yii::$app->params['path_to_excursion_photo'];

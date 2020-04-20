@@ -292,16 +292,6 @@ use yii\widgets\ActiveForm;
                         <fieldset class="booking-sec__col">
                             <legend class="booking-sec__col-title">Выберите время и дату</legend>
                             <div class="booking-sec__col-row">
-                                <!--<div class="booking__form-group-time">
-                                    <div class="select-small">
-                                        <select name="type" class="js-select" data-placeholder="Время">
-                                            <option></option>
-                                            <option>9:00</option>
-                                            <option>12.00</option>
-                                            <option>14:00</option>
-                                        </select>
-                                    </div>
-                                </div>-->
                                 <div class="booking__form-group-date">
                                     <div class="datapicker datapicker_small">
                                         <?=$form->field($model, 'date')->label(false)->textInput([

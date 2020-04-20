@@ -42,6 +42,12 @@ html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}.slick-slide i
     text-align: center;
 }
 
+.form-filter{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
 @media only screen and (max-width: 1023px){
     .reviews-page-item__row {
         flex-direction: column;
