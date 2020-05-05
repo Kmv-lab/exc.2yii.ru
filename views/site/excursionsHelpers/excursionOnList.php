@@ -9,7 +9,25 @@ $urlTo = Url::to( 'excursion/'.$exc['alias'], true);
 ?>
 
 <div class="exc-item" id="exc-item-<?=$number?>">
-    <div class="exc-item__category">Категория</div>
+    <?
+
+        $sql = 'SELECT `id_category` FROM `exc_category` WHERE `id_exc` = '.$exc['id_exc'];
+
+        $categoryes = Yii::$app->db->createCommand($sql)->queryAll();
+
+        $marginTop = 0;
+        foreach ($categoryes as $category){
+            if($marginTop){
+                echo "<div style=\"top: ".$marginTop."px\" class=\"exc-item__category\">".Excursions::getCategories($category['id_category'])."</div>";
+            }
+            else{
+                $marginTop += 10;
+                echo "<div style=\"top: 10px\" class=\"exc-item__category\">".Excursions::getCategories($category['id_category'])."</div>";
+            }
+            $marginTop += 50;
+        }
+
+    ?>
     <?php
     if ($exc['is_hit']){
     ?>
@@ -17,7 +35,23 @@ $urlTo = Url::to( 'excursion/'.$exc['alias'], true);
     <?}?>
     <a href="<?=$urlTo?>" class="exc-item__pic">
         <img src="<?=Excursions::DIRview().Yii::$app->params['resolution_main_excursion_photo'].'/'.$exc['main_photo']?>" alt="">
-        <div class="exc-item__date">Ближайшее: <b><?=$exc['next_day']?> в <?=ltrim(substr($exc['time_start'], 0, 5), '0')?></b></div>
+
+        <?php
+
+            if(!$filterDate){?>
+                <div class="exc-item__date">Ближайшее: <b><?=$exc['next_day']?> в <?=ltrim(substr($exc['time_start'], 0, 5), '0')?></b></div>
+            <?}
+            else{
+                $dateExc = new DateTime($exc['next_day']);
+                $viewsDate = $dateExc->format('d')." ";
+                $viewsDate .= Yii::$app->params['monhts_to_russian'][$dateExc->format('m') - 1]." ";
+
+                ?>
+                <div class="exc-item__date"><b><?=$viewsDate?> в <?=ltrim(substr($exc['time_start'], 0, 5), '0')?></b></div>
+            <?}
+        ?>
+
+
     </a>
     <div class="exc-item__main">
         <div class="exc-item__bar">

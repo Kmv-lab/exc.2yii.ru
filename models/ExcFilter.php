@@ -12,11 +12,12 @@ class ExcFilter extends Model
     public $date;
     public $type;
     public $duration;
+    public $isActive;
 
     public function rules()
     {
         return [
-        [['date', 'type', 'duration'], 'safe']
+        [['date', 'type', 'duration', 'isActive'], 'safe']
     ];
     }
 

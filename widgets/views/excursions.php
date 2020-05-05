@@ -13,11 +13,13 @@ use yii\widgets\Pjax;
 
 
             if (!empty($modelExc)){
+                //vd($modelExc);
                 $i=1;
                 foreach ($modelExc as $exc){
                     echo $this->render('/site/excursionsHelpers/excursionOnList', [
                         'exc' => $exc,
-                        'number' => $i++
+                        'number' => $i++,
+                        'filterDate' => $filterDate,
                     ]);
                 }
             }
@@ -26,8 +28,8 @@ use yii\widgets\Pjax;
 
             </div>
             <?
-            if (!isset(Yii::$app->params["show_button_more_exc"])){
-                echo Html::a('ПОКАЗАТЬ ЕЩЕ', Url::to(['more_exc', 'lasting_exc' => 1]), ['class' => 'btn btn_orange exc-sec__btn more-exc']);
+            if (isset(Yii::$app->params["show_button_more_exc"]) && Yii::$app->params["show_button_more_exc"]){
+                echo Html::a('ПОКАЗАТЬ ЕЩЕ', Url::to(['more_exc']), ['class' => 'btn btn_orange exc-sec__btn more-exc']);
             }
             ?>
 

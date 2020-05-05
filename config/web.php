@@ -130,8 +130,8 @@ $config = [
                 ],
 
 
-                'adm/<controller:\w+>/<action:\w+>' =>  'adm/<controller>/<action>',
-                'adm' => 'adm/default/index',
+                'admi/<controller:\w+>/<action:\w+>' =>  'adm/<controller>/<action>',
+                'admi' => 'adm/default/index',
 
 
                 '<alias:\S+>'               => 'site/page', //страницы

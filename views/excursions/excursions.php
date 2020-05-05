@@ -1,6 +1,7 @@
 <?php
 
 use app\modules\adm\models\Block;
+use app\modules\adm\models\Excursions;
 use app\widgets\Breadcrumbs;
 use app\widgets\ExcursionsWidget;
 use app\widgets\FormCallManager;
@@ -49,7 +50,7 @@ use yii\widgets\ActiveForm;
                             <?
                             $form = ActiveForm::begin([
                                 'options' => [
-                                    'class' => 'form-filter',
+                                    'class' => 'form-filter exc-sec-filter__row',
                                 ],
                             ]);
                             ?>
@@ -67,11 +68,7 @@ use yii\widgets\ActiveForm;
                                     <div class="select-small">
                                         <?php
 
-                                        $selects = [
-                                            'Тип экскурсии-1',
-                                            'Тип экскурсии-2',
-                                            'Тип экскурсии-3'
-                                        ];
+                                        $selects = Excursions::getCategories();
 
                                         ?>
                                         <?=$form->field($model, 'type')->label(false)->dropDownList($selects, [
@@ -87,9 +84,10 @@ use yii\widgets\ActiveForm;
                                         <?php
 
                                         $selects_duration = [
-                                            'Продолжительность-1',
-                                            'Продолжительность-2',
-                                            'Продолжительность-3'
+                                            'Длительность',
+                                            'менее 3 часов',
+                                            'менее 6 часов',
+                                            'более 6 часов'
                                         ];
 
                                         ?>
@@ -99,6 +97,9 @@ use yii\widgets\ActiveForm;
                                             'data-placeholder' => 'Продолжительность'
                                         ]);?>
                                     </div>
+                                </div>
+                                <div style="display: none">
+                                    <?=$form->field($model, 'isActive')->label(false)->checkbox();?>
                                 </div>
                                 <div class="exc-sec-filter__col">
                                     <?=Html::submitButton('ПОДОБРАТЬ ЭКСКУРСИЮ', [

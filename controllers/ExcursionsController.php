@@ -35,6 +35,7 @@ class ExcursionsController extends Controller
         if(Yii::$app->request->isPost){
             if ($model->load(Yii::$app->request->post())){
                 //vd($model->attributes);
+                $model->isActive = true;
             }
         }
 
@@ -48,22 +49,36 @@ class ExcursionsController extends Controller
 
         Yii::$app->params['breadcrumbs'] = PagesHelper::generateBreadcrumbs($pages);
 
-        return $this->render('excursions', ['page' => $pages, 'model' => $model]);
+        return $this->render('excursions', [
+            'page' => $pages,
+            'model' => $model
+        ]);
 
     }
 
-    public function actionMore_exc($lasting_exc){
+    public function actionMore_exc(){
+
+        $model = new ExcFilter();
+
+        $post = Yii::$app->request->post();
+        if(isset($post['isActive']) && $post['isActive']){
+            $model->type = $post['type'];
+            $model->date = $post['date'];
+            $model->duration = $post['duration'];
+            $model->isActive = $post['isActive'];
+        }
 
         $result = ExcursionsWidget::widget([
             'quantityExc' => Yii::$app->params['added_excursion_items_on_excursions'],
             'isAjax' => true,
             'onlyElem' => true,
-            'lastingExc' => $lasting_exc
+            'lastingExc' => $post['lastingExc'],
+            'filter' => $model
         ]);
-        $itsAll = false;
+        $itsAll = true;
 
         if (isset(Yii::$app->params["show_button_more_exc"]) && Yii::$app->params["show_button_more_exc"])
-            $itsAll = true;
+            $itsAll = false;
 
         $arrayNewBlocksAndStanding = [
             'res' => $itsAll,

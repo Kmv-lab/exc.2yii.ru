@@ -31,6 +31,7 @@ class Excursions extends ActiveRecord
 
     public static function getCategories($idCategory = null){
         $categoryArray = [
+            0 => 'Категория',
             1 => 'Подъём в горы',
             2 => 'Верховые экскурсии',
             3 => 'Плавание',
