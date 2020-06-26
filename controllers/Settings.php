@@ -25,6 +25,20 @@ class settings implements BootstrapInterface {
 
     public function bootstrap($app) {
 
+        $session = Yii::$app->session;
+
+        $session->open();
+        // проверяем что сессия уже открыта
+        if ($session->isActive) {
+            if (!isset($_SESSION['sourse'])){
+                $_SESSION['sourse'] = $_SERVER['HTTP_REFERER'];
+            }
+        }
+
+        // открываем сессию
+
+
+
         // Get settings from database
         $sql = $this->db->createCommand("SELECT set_sys_name, set_sys_value FROM settings_sys ORDER BY id");
         $settings = $sql->queryAll();

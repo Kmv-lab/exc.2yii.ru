@@ -1,5 +1,6 @@
 <?php
 
+use app\widgets\ExcursionsWidget;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -311,7 +312,7 @@ use yii\widgets\ActiveForm;
                                     <div class="select-small price-select">
                                         <?
                                         $selects = [
-                                            '',
+                                            'Взрослых',
                                             1,
                                             2,
                                             3,
@@ -329,6 +330,9 @@ use yii\widgets\ActiveForm;
                                     </div>
                                 </div>
                                 <?php
+
+                                $selects[0] = 'Детей';
+
                                 if($price->price_ch!==null){?>
                                     <div class="booking__form-group-children">
                                         <div class="select-small price-select">
@@ -342,6 +346,9 @@ use yii\widgets\ActiveForm;
                                 <?}?>
 
                                 <?php
+
+                                $selects[0] = 'Льготных';
+
                                 if($price->price_pref!==null){?>
                                     <div class="booking__form-group-benefits">
                                         <div class="select-small price-select">
@@ -377,64 +384,14 @@ use yii\widgets\ActiveForm;
             <div class="container">
                 <h2 class="sec-title exc-sec__title">Похожие экскурсии</h2>
                 <p class="sec-txt exc-sec__txt">Забронируйте экскурсии и получите электронный билет сразу</p>
-                <div class="exc-list">
-                    <div class="exc-item">
-                        <div class="exc-item__category">Категория</div>
-                        <a href="#" class="exc-item__pic">
-                            <img src="img/pic/exc-item.jpg" alt="">
-                            <div class="exc-item__date">Ближайшее: <b>среда в 14:00</b></div>
-                        </a>
-                        <div class="exc-item__main">
-                            <div class="exc-item__bar">
-                                <div class="exc-item__bar-item exc-item__bar-item_rait">Рейтинг: <span>9.1 / 10</span></div>
-                                <div class="exc-item__bar-item exc-item__bar-item_time">Длительность: <span>3 часа</span></div>
-                            </div>
-                            <a href="#" class="exc-item__name">Название экскурсии в две или несколько строк</a>
-                            <a href="#" class="exc-item__txt">Равным образом рамки обучения играет важную роль в формировании форм развития. Не следует, однако забывать, что новая модель организационной деятельности влечет за собой процесс.</a>
-                        </div>
-                        <div class="exc-item__footer">
-                            <div class="exc-item__price">от <b>700</b>&nbsp;р.</div>
-                            <a href="#" class="btn btn_orange-brd exc-item__btn">ПОДРОБНЕЕ</a>
-                        </div>
-                    </div>
-                    <div class="exc-item">
-                        <div class="exc-item__category">Категория</div>
-                        <a href="#" class="exc-item__pic">
-                            <img src="img/pic/exc-item.jpg" alt="">
-                            <div class="exc-item__date">Ближайшее: <b>среда в 14:00</b></div>
-                        </a>
-                        <div class="exc-item__main">
-                            <div class="exc-item__bar">
-                                <div class="exc-item__bar-item exc-item__bar-item_rait">Рейтинг: <span>9.1 / 10</span></div>
-                                <div class="exc-item__bar-item exc-item__bar-item_time">Длительность: <span>3 часа</span></div>
-                            </div>
-                            <a href="#" class="exc-item__name">Название экскурсии в две или несколько строк</a>
-                            <a href="#" class="exc-item__txt">Равным образом рамки обучения играет важную роль в формировании форм развития. Не следует, однако забывать, что новая модель организационной деятельности влечет за собой процесс.</a>
-                        </div>
-                        <div class="exc-item__footer">
-                            <div class="exc-item__price">от <b>700</b>&nbsp;р.</div>
-                            <a href="#" class="btn btn_orange-brd exc-item__btn">ПОДРОБНЕЕ</a>
-                        </div>
-                    </div>
-                    <div class="exc-item">
-                        <div class="exc-item__category">Категория</div>
-                        <a href="#" class="exc-item__pic">
-                            <img src="img/pic/exc-item.jpg" alt="">
-                            <div class="exc-item__date">Ближайшее: <b>среда в 14:00</b></div>
-                        </a>
-                        <div class="exc-item__main">
-                            <div class="exc-item__bar">
-                                <div class="exc-item__bar-item exc-item__bar-item_rait">Рейтинг: <span>9.1 / 10</span></div>
-                                <div class="exc-item__bar-item exc-item__bar-item_time">Длительность: <span>3 часа</span></div>
-                            </div>
-                            <a href="#" class="exc-item__name">Название экскурсии в две или несколько строк</a>
-                            <a href="#" class="exc-item__txt">Равным образом рамки обучения играет важную роль в формировании форм развития. Не следует, однако забывать, что новая модель организационной деятельности влечет за собой процесс.</a>
-                        </div>
-                        <div class="exc-item__footer">
-                            <div class="exc-item__price">от <b>700</b>&nbsp;р.</div>
-                            <a href="#" class="btn btn_orange-brd exc-item__btn">ПОДРОБНЕЕ</a>
-                        </div>
-                    </div>
+                <div class="exc-list exc-like-this">
+                    <?php
+                    echo ExcursionsWidget::widget([
+                        'excCategory' => $category,
+                        'onlyElem' => true,
+                        'currentExcId' => $excursion->id
+                    ]);
+                    ?>
                 </div>
             </div>
         </section>

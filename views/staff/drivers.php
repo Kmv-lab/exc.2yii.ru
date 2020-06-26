@@ -24,7 +24,7 @@ $urlToGuides = Url::to( 'ekskursovodyi', true);
             </div>
         </nav>
 
-        <h1 class="page-title"><?=$paramsPage['seo_h1']?></h1>
+        <h1 class="page-title SEO-h1"><?=$paramsPage['seo_h1']?></h1>
 
         <section class="drivers" style="background-image: url(/img/drivers_bg.png)">
             <div class="container">

@@ -96,6 +96,14 @@ class ExcursionsController extends Controller
 
         $excursion = Excursions::find()->where(['alias' => $alias])->one();
 
+        $sql = 'SELECT id_category FROM exc_category WHERE id_exc ='.$excursion->id;
+
+        $categoryes = Yii::$app->db->createCommand($sql)->queryAll();
+
+        foreach ($categoryes as $category){
+            $cat[] = $category['id_category'];
+        }
+
         $prices = ExcursionPrices::find()->where(['id_exc' => $excursion->id])->all();
         if (!empty($prices)){
             if (count($prices) > 1){
@@ -137,7 +145,8 @@ class ExcursionsController extends Controller
             'options' => $options,
             'advices' => $advices,
             'comments' => $comments,
-            'model' => $model
+            'model' => $model,
+            'category' => $cat
         ]);
     }
 
@@ -177,7 +186,7 @@ class ExcursionsController extends Controller
             $date = new DateTime('NOW');
             $requestBidExc = new BidRequest();
             $requestBidExc->date_request = $date->format('Y-m-d H:i:s');
-            $requestBidExc->page_requst = Yii::$app->request->pathInfo;
+            $requestBidExc->source_requst = Yii::$app->session->get('sourse');
             $requestBidExc->id_exc = $excursion->id;
             $excDate = new DateTime($model->date);
             $requestBidExc->date_exc = $excDate->format('Y-m-d H:i:s');
@@ -188,6 +197,15 @@ class ExcursionsController extends Controller
             $requestBidExc->user_phone = $model->personPhone;
             $requestBidExc->user_email = $model->personEmail;
             $requestBidExc->save();
+
+            Yii::$app->mailer->compose()
+                ->setFrom('from@exc-yii2.com')
+                ->setTo('truetrueZXC@gmail.com')
+                ->setSubject('Тема сообщения')
+                //->setTextBody('Текст сообщения')
+                ->setHtmlBody('<b>текст сообщения в формате HTML</b>')
+                ->send();
+
         }
 
         return $this->render('booking', [

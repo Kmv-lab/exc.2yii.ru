@@ -78,7 +78,7 @@ use yii\widgets\ActiveForm;
                                     <div class="select-small price-select">
                                         <?
                                         $selects = [
-                                            'Лабе',
+                                            'Взрослых',
                                             1,
                                             2,
                                             3,
@@ -96,6 +96,7 @@ use yii\widgets\ActiveForm;
                                     </div>
                                 </div>
                                 <?php
+                                $selects[0] = 'Детей';
                                 if($price->price_ch!==null){?>
                                     <div class="booking__form-group-children">
                                         <div class="select-small price-select">
@@ -108,6 +109,7 @@ use yii\widgets\ActiveForm;
                                     </div>
                                 <?}?>
                                 <?php
+                                $selects[0] = 'Льготных';
                                 if($price->price_pref!==null){?>
                                     <div class="booking__form-group-benefits">
                                         <div class="select-small price-select">
@@ -157,7 +159,6 @@ use yii\widgets\ActiveForm;
         </section>
         <section class="callback-sec callback-sec_blue">
             <div class="container">
-                <form action="#" method="post" class="callback-form">
                     <div class="callback-form__row">
 
                         <?=$form->field($model, 'personName')->label(false)->textInput([
@@ -193,7 +194,6 @@ use yii\widgets\ActiveForm;
                     </div>
 
                     <small class="callback-form__sub">Каждый клиент гарантированно получит оплаченный им билет.<br>Так же можете ознакомиться с <a href="#" target="_blank">гарантией возврата средств</a>.</small>
-                </form>
             </div>
         </section>
         <?

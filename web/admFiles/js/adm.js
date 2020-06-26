@@ -294,7 +294,7 @@ $(document).ready(function() {
             str = encodeURIComponent(str);
 
             $.ajax({
-                url: "/adm/default/ajaxtranslite/",
+                url: "/admi/default/ajaxtranslite/",
                 cache: false,
                 data: "str="+str,
                 success: function(html){

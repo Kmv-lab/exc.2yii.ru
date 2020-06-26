@@ -25,7 +25,11 @@ class ExcursionsWidget extends Widget
 
     public $lastingExc = 0;
 
+    public $excCategory = [];
+
     public $filter;
+
+    public $currentExcId = null;
 
     public function run()
     {
@@ -73,6 +77,14 @@ class ExcursionsWidget extends Widget
             $sqlWhere .= ' AND exc_category.id_category = '.$this->filter->type.' ';
         }
 
+        if(!empty($this->excCategory) && $this->currentExcId){
+            $sqlJoin .= ' JOIN exc_category ON exc_category.id_exc = prices.id_exc ';
+            $sqlWhere .= ' AND exc_category.id_category IN ('.implode(',',$this->excCategory).') ';
+            $sqlWhere .= ' AND prices.id_exc != '.$this->currentExcId.' LIMIT 4';
+
+            $sqlOrder = '';
+        }
+
         if(!empty($this->filter) && ($this->filter->duration)){
             switch ($this->filter->duration){
                 case 1://менее 3х часов
@@ -116,16 +128,21 @@ class ExcursionsWidget extends Widget
             for ($i = 1; $i<8; $i++){
                 if($exc[$daysNameArrayEng[$i]] == 1){
                     if (isset($this->filter->date) && $this->filter->date){
+                        $exc['date_next_exc'] = strtotime($today->format('Y-m-d')." ".$exc['time_start']);
                         $exc['next_day'] = $this->filter->date;
                     }
                     else{
                         if ($today->format('N') == $i){
+                            $exc['date_next_exc'] = strtotime($today->format('Y-m-d')." ".$exc['time_start']);
                             $exc['next_day'] = 'Сегодня';
                         }
                         elseif (($today->format('N')+1) == $i){
+                            $exc['date_next_exc'] = strtotime($today->modify('tomorrow')->format('Y-m-d')." ".$exc['time_start']);
                             $exc['next_day'] = 'Завтра';
+                            $today->modify('yesterday');
                         }
                         else{
+                            $exc['date_next_exc'] =  strtotime( $daysNameArrayEng[$i] . " " . $exc['time_start']);
                             $exc['next_day'] = $daysNameArray[$i];
                         }
                     }
@@ -133,6 +150,25 @@ class ExcursionsWidget extends Widget
                 }
             }
         }//разбол полученного массива по дням недени.
+
+
+        if(empty($excursions)){
+            echo "<span style='color: #0a0a0a'>Нет подходящих Экскурсий</span>";
+            return;
+        }
+
+        foreach ($excursions as $key => $value) {
+            if (count($value) <= 1)
+                continue;
+
+            foreach ($value as $key1 => $excursion) {
+                $tempExcAsTime[$excursion['time_start']] = $excursion;
+            }
+            ksort($tempExcAsTime);
+            $excursions[$key] = $tempExcAsTime;
+        }
+
+
 
         $count = 1;
         $duplicates = [];
@@ -149,7 +185,16 @@ class ExcursionsWidget extends Widget
 
 
             $i = $i == 7 ? 1 : $i;
-        }
+        }//Удаление дубликатов
+
+        usort($temp, function ($a, $b){
+            if($a['date_next_exc'] < $b['date_next_exc']){
+                return -1;
+            }
+            else{
+                return 1;
+            }
+        });
 
         if(!isset($temp)){
             echo "<span style='color: #0a0a0a'>Нет подходящих Экскурсий</span>";

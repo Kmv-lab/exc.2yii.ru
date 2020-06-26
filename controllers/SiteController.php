@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\ExcFilter;
 use app\models\Sitemap;
 use app\modules\adm\models\ExcursionComments;
 use app\modules\adm\models\Main_page;
@@ -228,7 +229,7 @@ class SiteController extends Controller{
         }
 
         return $this->render('dnd', [
-            'blocks' => $blocks,
+            'blocks' => $blocks
         ]);
     }
 
@@ -287,7 +288,7 @@ class SiteController extends Controller{
 
         $showMoreReviews = false;
 
-        $SQL = 'SELECT COUNT(*) FROM `excursions`;';
+        $SQL = 'SELECT COUNT(*) FROM `excursions`;';//кол-во отзывов
         $countReviews = Yii::$app->db->createCommand($SQL)->queryOne();
         $countReviews = $countReviews['COUNT(*)'];
         if($countReviews > Yii::$app->params['added_reviews_item']+$last_reviews)

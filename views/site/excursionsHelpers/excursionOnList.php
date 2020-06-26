@@ -42,9 +42,17 @@ $urlTo = Url::to( 'excursion/'.$exc['alias'], true);
                 <div class="exc-item__date">Ближайшее: <b><?=$exc['next_day']?> в <?=ltrim(substr($exc['time_start'], 0, 5), '0')?></b></div>
             <?}
             else{
-                $dateExc = new DateTime($exc['next_day']);
-                $viewsDate = $dateExc->format('d')." ";
-                $viewsDate .= Yii::$app->params['monhts_to_russian'][$dateExc->format('m') - 1]." ";
+
+                /*if(!(strcasecmp($exc['next_day'], "Сегодня") == 0) || !(strcasecmp($exc['next_day'], "Завтра") == 0)){
+                    $dateExc = new DateTime($exc['next_day']);
+                    $viewsDate = $dateExc->format('d')." ";
+                    $viewsDate .= Yii::$app->params['monhts_to_russian'][$dateExc->format('m') - 1]." ";
+                }
+                else{
+                    $viewsDate = $exc['next_day'];
+                }*/
+
+                $viewsDate = $exc['next_day'];
 
                 ?>
                 <div class="exc-item__date"><b><?=$viewsDate?> в <?=ltrim(substr($exc['time_start'], 0, 5), '0')?></b></div>

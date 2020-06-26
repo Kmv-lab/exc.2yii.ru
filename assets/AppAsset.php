@@ -28,8 +28,9 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         //'libs/owl/owl.carousel.min.js',
+        '/assets/ab2eca81/jquery.js',
         'libs/inputmask/jquery.inputmask.min.js',
-        'libs/sumoselect/jquery.sumoselect.min.js',
+        //'libs/sumoselect/jquery.sumoselect.min.js',
         'libs/fancybox/jquery.fancybox.min.js',
         //'js/script.js',
         'js/vendors.min.js',

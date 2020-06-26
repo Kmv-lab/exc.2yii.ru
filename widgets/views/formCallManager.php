@@ -20,9 +20,11 @@ $action = Url::to( 'request/manager_form', true);
         ],
     ]);
     ?>
-
+    <?php
+        $pageAdress = Yii::$app->request->pathInfo ? Yii::$app->request->pathInfo : 'index';
+    ?>
     <?=$form->field($model, 'page')->label(false)->hiddenInput([
-            'value' => Yii::$app->request->pathInfo
+            'value' => $pageAdress
     ])?>
 
     <div class="callback-form__row">
